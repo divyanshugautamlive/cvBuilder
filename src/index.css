@@ -1,0 +1,102 @@
+/* Phase 2 CSS Imports */
+@import './styles/ai-components.css';
+@import './styles/cover-letter.css';
+@import './styles/version-manager.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* A4 Page Rules for Print/Export */
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
+@media print {
+
+    /* Hide everything except the printable area */
+    body * {
+        visibility: hidden;
+    }
+
+    #resume-preview,
+    #resume-preview * {
+        visibility: visible;
+    }
+
+    #resume-preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        padding: 20mm;
+        box-shadow: none;
+        transform: none !important;
+    }
+
+    /* Page break rules - prevent splitting sections */
+    .resume-section {
+        page-break-inside: avoid;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        page-break-after: avoid;
+    }
+
+    ul,
+    ol {
+        page-break-inside: avoid;
+    }
+
+    /* Prevent orphan headings */
+    h2+*,
+    h3+* {
+        page-break-before: avoid;
+    }
+}
+
+/* ATS-friendly base styles - black text, white background */
+#resume-preview {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+#resume-preview h1,
+#resume-preview h2,
+#resume-preview h3 {
+    color: #000000;
+}
+
+/* Template Count Badge */
+.template-count-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}

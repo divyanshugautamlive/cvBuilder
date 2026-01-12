@@ -1,0 +1,236 @@
+/* Cover Letter Builder Styles */
+
+.cover-letter-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px;
+    min-height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .cover-letter-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Editor Panel */
+.cl-editor {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cl-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 4px 0;
+}
+
+.cl-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 24px 0;
+}
+
+/* Form Styles */
+.cl-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cl-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 640px) {
+    .cl-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cl-field,
+.cl-field-full {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cl-field label,
+.cl-field-full label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.cl-field input,
+.cl-field-full input,
+.cl-field textarea,
+.cl-field-full textarea {
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.cl-field input:focus,
+.cl-field-full input:focus,
+.cl-field textarea:focus,
+.cl-field-full textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.cl-field-full textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Actions */
+.cl-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.cl-ai-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cl-ai-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.cl-export-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cl-export-btn:hover {
+    background: #059669;
+}
+
+/* Preview Panel */
+.cl-preview-pane {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+}
+
+.cl-preview-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 16px 0;
+}
+
+/* Document Preview */
+.cover-letter-document {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+
+.cl-doc-header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cl-doc-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.cl-doc-contact {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+}
+
+.cl-doc-date {
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.cl-doc-recipient {
+    margin-bottom: 24px;
+}
+
+.cl-doc-recipient p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.cl-doc-greeting {
+    margin-bottom: 16px;
+}
+
+.cl-doc-greeting p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.cl-doc-body {
+    margin-bottom: 24px;
+}
+
+.cl-doc-body p {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    text-align: justify;
+}
+
+.cl-placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.cl-doc-signature {
+    margin-top: 32px;
+}
+
+.cl-doc-signature p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.cl-doc-sig-name {
+    margin-top: 24px !important;
+    font-weight: 600;
+}
