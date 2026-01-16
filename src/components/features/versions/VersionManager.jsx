@@ -11,10 +11,6 @@ const VersionManager = () => {
     const [showModal, setShowModal] = useState(false);
     const [versionName, setVersionName] = useState('');
 
-    useEffect(() => {
-        loadVersions();
-    }, []);
-
     const loadVersions = () => {
         try {
             // Load all versions from localStorage
@@ -35,6 +31,11 @@ const VersionManager = () => {
             console.error('Error loading versions:', error);
         }
     };
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        loadVersions();
+    }, []);
 
     const saveVersion = () => {
         const name = versionName.trim() || `Version ${versions.length + 1}`;

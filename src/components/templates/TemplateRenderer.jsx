@@ -30,7 +30,15 @@ const TemplateRenderer = () => {
     };
 
     return (
-        <div className="w-full h-full bg-white shadow-xl theme-preview origin-top" style={{ minHeight: '297mm', width: '210mm' }}>
+        <div
+            id="resume-preview"
+            className="w-full bg-white shadow-xl theme-preview origin-top mx-auto"
+            style={{
+                width: '210mm',
+                minHeight: '297mm'
+                /* Height is auto to allow growth, but min-height ensures at least one page */
+            }}
+        >
             {renderTemplate()}
         </div>
     );

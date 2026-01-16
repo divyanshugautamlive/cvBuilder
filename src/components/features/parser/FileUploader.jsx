@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Upload, FileText, Loader2, CheckCircle, AlertCircle, ArrowRight, RefreshCcw, Star } from 'lucide-react';
 import useResumeStore from '../../../store/useResumeStore';
 import { extractTextFromFile, parseResumeText } from '../../../utils/fileHelpers';
-import { calculateUploadScore } from '../../../utils/uploadScorer';
+
 
 const FileUploader = () => {
     const fileInputRef = useRef(null);
@@ -100,8 +100,8 @@ const FileUploader = () => {
             <div
                 onClick={() => !isParsingResume && fileInputRef.current?.click()}
                 className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all ${status === 'error' ? 'border-red-300 bg-red-50' :
-                        status === 'success' ? 'border-green-300 bg-green-50' :
-                            'border-gray-300 hover:border-blue-500 hover:bg-blue-50 group'
+                    status === 'success' ? 'border-green-300 bg-green-50' :
+                        'border-gray-300 hover:border-blue-500 hover:bg-blue-50 group'
                     }`}
             >
                 <input

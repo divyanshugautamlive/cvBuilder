@@ -24,7 +24,7 @@ const ExecutiveTemplate = ({ data }) => {
 
             {/* Summary */}
             {summary && (
-                <section className="mb-8">
+                <section className="mb-8 break-inside-avoid">
                     <h2 className="text-lg font-bold uppercase tracking-widest mb-3 border-b border-slate-200 pb-1">Executive Summary</h2>
                     <p className="text-justify text-slate-800 leading-relaxed font-sans">{summary}</p>
                 </section>
@@ -36,7 +36,7 @@ const ExecutiveTemplate = ({ data }) => {
                     <h2 className="text-lg font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-1">Professional Experience</h2>
                     <div className="space-y-6">
                         {experience.map((job, index) => (
-                            <div key={index}>
+                            <div key={index} className="break-inside-avoid">
                                 <div className="flex justify-between items-end mb-2">
                                     <h3 className="text-xl font-bold text-slate-900">{job.title}</h3>
                                     <span className="font-sans text-sm font-semibold text-slate-500">{job.startDate} – {job.endDate || 'Present'}</span>
@@ -60,7 +60,7 @@ const ExecutiveTemplate = ({ data }) => {
                         <h2 className="text-lg font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-1">Education</h2>
                         <div className="space-y-4">
                             {education.map((edu, index) => (
-                                <div key={index}>
+                                <div key={index} className="break-inside-avoid">
                                     <div className="font-bold text-lg">{edu.school}</div>
                                     <div className="text-slate-700">{edu.degree}</div>
                                     <div className="text-sm text-slate-500 font-sans">{edu.startDate} – {edu.endDate}</div>
@@ -74,7 +74,7 @@ const ExecutiveTemplate = ({ data }) => {
                 {(skills.length > 0 || certifications.length > 0) && (
                     <section>
                         {skills.length > 0 && (
-                            <div className="mb-6">
+                            <div className="mb-6 break-inside-avoid">
                                 <h2 className="text-lg font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-1">Core Competencies</h2>
                                 <div className="flex flex-wrap gap-x-2 gap-y-1 font-sans text-sm text-slate-800">
                                     {skills.map((skill, i) => (

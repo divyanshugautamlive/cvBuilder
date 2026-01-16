@@ -29,7 +29,7 @@ const EducationStep = () => {
         updateSection('education', newOrder);
     };
 
-    const renderEducationItem = (edu, index) => (
+    const renderEducationItem = (edu) => (
         <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm relative group">
             <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button

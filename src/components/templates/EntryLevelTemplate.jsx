@@ -1,7 +1,7 @@
 import React from 'react';
 
 const EntryLevelTemplate = ({ data }) => {
-    const { personalInfo = {}, summary, experience = [], education = [], skills = [], certifications = [] } = data;
+    const { personalInfo = {}, summary, experience = [], education = [], skills = [] } = data;
     const getSkillName = (skill) => typeof skill === 'string' ? skill : skill.name;
 
     return (
@@ -22,7 +22,7 @@ const EntryLevelTemplate = ({ data }) => {
             {/* Content ordered for Entry Level: Summary > Education > Skills > Experience */}
 
             {summary && (
-                <section className="mb-6 bg-gray-50 p-4 rounded-lg">
+                <section className="mb-6 bg-gray-50 p-4 rounded-lg break-inside-avoid">
                     <h2 className="text-md font-bold text-teal-800 uppercase mb-2 border-b border-teal-200 pb-1">Objective</h2>
                     <p className="text-sm text-gray-700">{summary}</p>
                 </section>
@@ -33,7 +33,7 @@ const EntryLevelTemplate = ({ data }) => {
                     <h2 className="text-md font-bold text-teal-800 uppercase mb-3 border-b border-teal-200 pb-1">Education</h2>
                     <div className="grid gap-4">
                         {education.map((edu, index) => (
-                            <div key={index} className="flex justify-between items-start">
+                            <div key={index} className="flex justify-between items-start break-inside-avoid">
                                 <div>
                                     <div className="font-bold text-gray-900">{edu.school}</div>
                                     <div className="text-teal-700 font-medium">{edu.degree}</div>
@@ -49,7 +49,7 @@ const EntryLevelTemplate = ({ data }) => {
             )}
 
             {skills.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-6 break-inside-avoid">
                     <h2 className="text-md font-bold text-teal-800 uppercase mb-3 border-b border-teal-200 pb-1">Skills</h2>
                     <div className="flex flex-wrap gap-2">
                         {skills.map((skill, i) => (
@@ -66,7 +66,7 @@ const EntryLevelTemplate = ({ data }) => {
                     <h2 className="text-md font-bold text-teal-800 uppercase mb-3 border-b border-teal-200 pb-1">Experience</h2>
                     <div className="space-y-4">
                         {experience.map((job, index) => (
-                            <div key={index}>
+                            <div key={index} className="break-inside-avoid">
                                 <div className="flex justify-between font-bold text-gray-900 mb-1">
                                     <span>{job.title}</span>
                                     <span className="text-sm font-normal text-gray-600">{job.startDate} - {job.endDate || 'Present'}</span>

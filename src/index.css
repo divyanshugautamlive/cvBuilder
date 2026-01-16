@@ -8,12 +8,24 @@
 @tailwind utilities;
 
 /* A4 Page Rules for Print/Export */
+/* A4 Page Rules for Print/Export */
 @page {
     size: A4;
-    margin: 20mm;
+    margin: 0;
+    /* We handle margins in the body/content to ensure background colors bleed if needed */
 }
 
+/* Print Specifics - The Real Export Logic */
 @media print {
+
+    html,
+    body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+        overflow: visible !important;
+    }
 
     /* Hide everything except the printable area */
     body * {
@@ -30,34 +42,66 @@
         left: 0;
         top: 0;
         width: 210mm;
+        /* Remove fixed height for print so it flows naturally */
         min-height: 297mm;
+        height: auto !important;
         margin: 0;
-        padding: 20mm;
+        padding: 0 !important;
+        /* Reset padding, let the inner container handle it if needed */
         box-shadow: none;
         transform: none !important;
+        overflow: visible !important;
+        background: white;
     }
 
-    /* Page break rules - prevent splitting sections */
-    .resume-section {
-        page-break-inside: avoid;
+    /* Important: Force background graphics to print */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
-    h1,
-    h2,
-    h3,
-    h4 {
-        page-break-after: avoid;
+    /* Hide the visual page break markers in print */
+    .page-break-marker {
+        display: none !important;
+    }
+}
+
+/* Page Break Utilities */
+.break-inside-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.break-before-always {
+    page-break-before: always;
+    break-before: always;
+}
+
+/* Visual Editor Styles (Screen Only) */
+@media screen {
+    #resume-preview {
+        width: 210mm;
+        /* Visual simulation of pages using repeating gradient */
+        min-height: 297mm;
+        /* Dashed line every 297mm - 1px line, then transparent */
+        background-image: linear-gradient(to bottom, transparent, transparent calc(297mm - 1px), #e5e7eb calc(297mm - 1px), #e5e7eb 297mm);
+        background-size: 100% 297mm;
+        position: relative;
     }
 
-    ul,
-    ol {
-        page-break-inside: avoid;
-    }
-
-    /* Prevent orphan headings */
-    h2+*,
-    h3+* {
-        page-break-before: avoid;
+    /* Add a subtle "Page 2", "Page 3" marker on hover or always? 
+       Let's keep it simple: A shadow line is good.
+       We can also add a right-side marker index if desired, but let's stick to the subtle line first. 
+    */
+    .page-break-marker {
+        position: absolute;
+        left: 0;
+        right: 0;
+        border-bottom: 2px dashed #ff4d4d;
+        /* Red dashed line for visibility */
+        opacity: 0.5;
+        pointer-events: none;
+        z-index: 50;
     }
 }
 

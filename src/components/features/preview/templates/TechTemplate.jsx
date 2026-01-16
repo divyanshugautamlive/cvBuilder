@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TechTemplate = ({ data }) => {
-    const { personalInfo, summary, experience, education, skills, certifications } = data;
+    const { personalInfo, experience, education, skills } = data;
 
     return (
         <div className="font-sans text-gray-800" style={{ fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' }}>

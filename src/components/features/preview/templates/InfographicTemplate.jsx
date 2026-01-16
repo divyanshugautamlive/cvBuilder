@@ -70,7 +70,7 @@ const InfographicTemplate = ({ data }) => {
                                         <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                                             <div
                                                 className="h-full rounded-full"
-                                                style={{ width: `${Math.floor(Math.random() * 30) + 70}%`, backgroundColor: themeColor }} // Random for visual demo, ideally from data
+                                                style={{ width: '85%', backgroundColor: themeColor }} // Fixed width for demo
                                             ></div>
                                         </div>
                                     </div>

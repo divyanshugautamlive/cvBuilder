@@ -31,7 +31,7 @@ const TechTemplate = ({ data }) => {
                 {/* Left Column: Skills & Education */}
                 <aside className="space-y-8">
                     {skills.length > 0 && (
-                        <section>
+                        <section className="break-inside-avoid">
                             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Technical Skills</h2>
                             <div className="flex flex-wrap gap-2">
                                 {skills.map((skill, i) => (
@@ -48,7 +48,7 @@ const TechTemplate = ({ data }) => {
                             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Education</h2>
                             <div className="space-y-4">
                                 {education.map((edu, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="break-inside-avoid">
                                         <div className="font-bold text-gray-800">{edu.school}</div>
                                         <div className="text-sm text-gray-600">{edu.degree}</div>
                                         <div className="text-xs text-gray-400 mt-1">{edu.startDate} - {edu.endDate}</div>
@@ -59,7 +59,7 @@ const TechTemplate = ({ data }) => {
                     )}
 
                     {certifications.length > 0 && (
-                        <section>
+                        <section className="break-inside-avoid">
                             <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Certifications</h2>
                             <ul className="text-sm text-gray-600 space-y-2">
                                 {certifications.map((cert, i) => (
@@ -73,7 +73,7 @@ const TechTemplate = ({ data }) => {
                 {/* Right Column: Summary & Experience */}
                 <main className="space-y-8">
                     {summary && (
-                        <section>
+                        <section className="break-inside-avoid">
                             <h2 className="text-2xl font-bold text-gray-800 mb-3">About Me</h2>
                             <p className="text-gray-600 leading-relaxed text-sm">{summary}</p>
                         </section>
@@ -84,7 +84,7 @@ const TechTemplate = ({ data }) => {
                             <h2 className="text-2xl font-bold text-gray-800 mb-6">Experience</h2>
                             <div className="space-y-8 relative border-l-2 border-gray-100 pl-6 ml-2">
                                 {experience.map((job, index) => (
-                                    <div key={index} className="relative">
+                                    <div key={index} className="relative break-inside-avoid">
                                         <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-blue-100 border-2 border-blue-500"></div>
                                         <div className="flex justify-between items-baseline mb-2">
                                             <h3 className="text-lg font-bold text-gray-900">{job.title}</h3>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MinimalistTemplate = ({ data }) => {
-    const { personalInfo = {}, summary, experience = [], education = [], skills = [], certifications = [] } = data;
+    const { personalInfo = {}, summary, experience = [], education = [], skills = [] } = data;
 
     return (
         <div className="p-8 text-slate-800 font-sans" style={{ fontFamily: 'Georgia, serif', maxWidth: '100%', wordWrap: 'break-word' }}>
@@ -29,7 +29,7 @@ const MinimalistTemplate = ({ data }) => {
                             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Education</h2>
                             <div className="space-y-4">
                                 {education.map((edu, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="break-inside-avoid">
                                         <div className="font-bold text-slate-800">{edu.school}</div>
                                         <div className="text-sm text-slate-600 mb-1">{edu.degree}</div>
                                         <div className="text-xs text-slate-400">{edu.startDate} - {edu.endDate}</div>
@@ -45,7 +45,7 @@ const MinimalistTemplate = ({ data }) => {
                             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Skills</h2>
                             <ul className="text-sm text-slate-700 space-y-2">
                                 {skills.map((skill, i) => (
-                                    <li key={i} className="border-b border-gray-100 pb-1 last:border-0">{skill.name}</li>
+                                    <li key={i} className="border-b border-gray-100 pb-1 last:border-0 break-inside-avoid">{skill.name}</li>
                                 ))}
                             </ul>
                         </section>
@@ -56,7 +56,7 @@ const MinimalistTemplate = ({ data }) => {
                 <main>
                     {/* Summary */}
                     {summary && (
-                        <section className="mb-8">
+                        <section className="mb-8 break-inside-avoid">
                             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Profile</h2>
                             <p className="text-sm leading-relaxed text-slate-700">{summary}</p>
                         </section>
@@ -68,7 +68,7 @@ const MinimalistTemplate = ({ data }) => {
                             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Work History</h2>
                             <div className="space-y-6">
                                 {experience.map((job, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="break-inside-avoid">
                                         <div className="flex justify-between items-baseline mb-2">
                                             <h3 className="font-bold text-slate-800 text-lg">{job.title}</h3>
                                             <span className="text-xs text-slate-400 font-mono">{job.startDate} — {job.endDate || 'Present'}</span>

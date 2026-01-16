@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ClassicTemplate = ({ data }) => {
-    const { personalInfo = {}, summary, experience = [], education = [], skills = [], certifications = [] } = data;
+    const { personalInfo = {}, summary, experience = [], education = [], skills = [] } = data;
 
     return (
         <div className="p-8 text-gray-900" style={{ fontFamily: '"Times New Roman", Times, serif', maxWidth: '100%', wordWrap: 'break-word', lineHeight: '1.4' }}>
@@ -21,7 +21,7 @@ const ClassicTemplate = ({ data }) => {
 
             {/* Summary */}
             {summary && (
-                <section className="mb-6">
+                <section className="mb-6 break-inside-avoid">
                     <h2 className="text-lg font-bold uppercase text-center mb-3">Professional Summary</h2>
                     <p className="text-justify">{summary}</p>
                 </section>
@@ -33,7 +33,7 @@ const ClassicTemplate = ({ data }) => {
                     <h2 className="text-lg font-bold uppercase text-center mb-4">Experience</h2>
                     <div className="space-y-5">
                         {experience.map((job, index) => (
-                            <div key={index}>
+                            <div key={index} className="break-inside-avoid">
                                 <div className="flex justify-between font-bold text-lg mb-1">
                                     <span>{job.company}</span>
                                     <span>{job.startDate} - {job.endDate || 'Present'}</span>
@@ -56,7 +56,7 @@ const ClassicTemplate = ({ data }) => {
                     <h2 className="text-lg font-bold uppercase text-center mb-4">Education</h2>
                     <div className="space-y-3">
                         {education.map((edu, index) => (
-                            <div key={index} className="flex justify-between">
+                            <div key={index} className="flex justify-between break-inside-avoid">
                                 <div>
                                     <div className="font-bold text-lg">{edu.school}</div>
                                     <div className="italic">{edu.degree}</div>
@@ -72,7 +72,7 @@ const ClassicTemplate = ({ data }) => {
 
             {/* Skills */}
             {skills.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-6 break-inside-avoid">
                     <h2 className="text-lg font-bold uppercase text-center mb-3">Skills</h2>
                     <div className="text-center">
                         {skills.map((skill, i) => (

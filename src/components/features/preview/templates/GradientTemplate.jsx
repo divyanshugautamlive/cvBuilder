@@ -1,7 +1,7 @@
 import React from 'react';
 
 const GradientTemplate = ({ data }) => {
-    const { personalInfo, summary, experience, education, skills, certifications, selectedThemeColor } = data;
+    const { personalInfo, summary, experience, education, skills, selectedThemeColor } = data;
     const themeColor = selectedThemeColor || '#16A085';
 
     return (

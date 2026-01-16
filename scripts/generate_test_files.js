@@ -1,4 +1,4 @@
-
+/* eslint-env node */
 import { jsPDF } from "jspdf";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import fs from "fs";
@@ -38,6 +38,7 @@ const generatePDF = () => {
     doc.text("JavaScript, React, Node.js, CSS, HTML, Python", 20, 160);
 
     const buffer = doc.output('arraybuffer');
+    // eslint-disable-next-line no-undef
     fs.writeFileSync("test_resume.pdf", Buffer.from(buffer));
     console.log("✅ test_resume.pdf created");
 };

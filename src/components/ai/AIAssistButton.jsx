@@ -66,17 +66,7 @@ const AIAssistButton = ({
         }
     };
 
-    const handleQuickGenerate = async () => {
-        setIsLoading(true);
-        try {
-            const generatedText = await generateContent('Generate professional content');
-            onGenerate(generatedText);
-        } catch (err) {
-            console.error('AI generation error:', err);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+
 
     return (
         <div className="ai-assist-container">
