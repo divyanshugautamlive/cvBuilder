@@ -2,107 +2,165 @@ import React from 'react';
 
 const TechTemplate = ({ data }) => {
     const { personalInfo = {}, summary, experience = [], education = [], skills = [], certifications = [] } = data;
-    const getSkillName = (skill) => typeof skill === 'string' ? skill : skill.name;
 
     return (
-        <div className="p-8 font-sans text-gray-800" style={{ fontFamily: 'Inter, system-ui, sans-serif', maxWidth: '100%', wordWrap: 'break-word' }}>
+        <div className="p-8 font-mono text-gray-800 bg-slate-50 relative" style={{ fontFamily: '"Courier New", Courier, monospace', maxWidth: '100%', wordWrap: 'break-word' }}>
 
-            {/* Header */}
-            <header className="flex justify-between items-start mb-8 pb-4 border-b border-gray-200">
-                <div className="flex-1">
-                    <h1 className="text-4xl font-extrabold tracking-tight text-blue-700 mb-2">
-                        {personalInfo.fullName || 'Your Name'}
+            {/* Decimal Grid Background Pattern */}
+            <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none overflow-hidden"
+                style={{
+                    backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
+                    backgroundSize: '20px 20px'
+                }}>
+            </div>
+
+            <div className="relative z-10">
+                {/* Header */}
+                <header className="mb-8 border-b-2 border-gray-400 pb-6">
+                    <h1 className="text-3xl font-bold text-blue-900 mb-2 name">
+                        {`> ${personalInfo.fullName || 'User_Name'}`} <span className="animate-pulse">_</span>
                     </h1>
-                    <div className="text-lg text-gray-600 font-medium">
-                        {personalInfo.jobTitle || 'Software Engineer'}
+                    <div className="text-sm font-semibold text-gray-600 flex flex-wrap gap-4 items-center">
+                        {personalInfo.jobTitle && (
+                            <span className="bg-gray-200 px-2 py-1 rounded job-title-header">{personalInfo.jobTitle}</span>
+                        )}
+                        {personalInfo.email && (
+                            <span className="email">{personalInfo.email}</span>
+                        )}
+                        {personalInfo.phone && (
+                            <span className="phone">{personalInfo.phone}</span>
+                        )}
+                        {personalInfo.location && (
+                            <span className="location">{personalInfo.location}</span>
+                        )}
                     </div>
-                </div>
-                <div className="text-right text-sm text-gray-500 space-y-1">
-                    {personalInfo.email && <div>{personalInfo.email}</div>}
-                    {personalInfo.phone && <div>{personalInfo.phone}</div>}
-                    {personalInfo.location && <div>{personalInfo.location}</div>}
+                </header>
 
-                    {personalInfo.website && <div className="text-blue-600">{personalInfo.website}</div>}
-                </div>
-            </header>
+                <div className="grid grid-cols-[2fr_1fr] gap-8">
+                    {/* Left Column */}
+                    <main className="space-y-8">
 
-            <div className="grid grid-cols-[1fr_2fr] gap-8">
+                        {/* Summary */}
+                        {summary && (
+                            <section className="break-inside-avoid summary" data-section="summary">
+                                <h2 className="text-lg font-bold text-blue-900 uppercase mb-3 flex items-center">
+                                    <span className="mr-2">#</span>
+                                    <span>Summary</span>
+                                </h2>
+                                <p className="text-sm leading-relaxed border-l-4 border-gray-300 pl-4">
+                                    {summary}
+                                </p>
+                            </section>
+                        )}
 
-                {/* Left Column: Skills & Education */}
-                <aside className="space-y-8">
-                    {skills.length > 0 && (
-                        <section className="break-inside-avoid">
-                            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Technical Skills</h2>
-                            <div className="flex flex-wrap gap-2">
-                                {skills.map((skill, i) => (
-                                    <span key={i} className="px-2 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded pointer-events-none">
-                                        {getSkillName(skill)}
-                                    </span>
-                                ))}
-                            </div>
-                        </section>
-                    )}
+                        {/* Experience */}
+                        {experience.length > 0 && (
+                            <section className="experience" data-section="experience">
+                                <h2 className="text-lg font-bold text-blue-900 uppercase mb-4 flex items-center">
+                                    <span className="mr-2">#</span>
+                                    <span>Experience_Log</span>
+                                </h2>
+                                <div className="space-y-6">
+                                    {experience.map((job, index) => {
+                                        const isHtml = job.description && job.description.trim().startsWith('<');
+                                        const descriptionContent = isHtml
+                                            ? job.description
+                                            : (job.description ? `<ul class="list-none space-y-1 ml-4 border-l border-dashed border-gray-400 pl-2 mt-2">${job.description.split('\n').filter(line => line.trim()).map(line => `<li><span class="text-blue-600 mr-2">$</span>${line.replace(/^[•-]\s*/, '')}</li>`).join('')}</ul>` : '');
 
-                    {education.length > 0 && (
-                        <section>
-                            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Education</h2>
-                            <div className="space-y-4">
-                                {education.map((edu, index) => (
-                                    <div key={index} className="break-inside-avoid">
-                                        <div className="font-bold text-gray-800">{edu.school}</div>
-                                        <div className="text-sm text-gray-600">{edu.degree}</div>
-                                        <div className="text-xs text-gray-400 mt-1">{edu.startDate} - {edu.endDate}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    )}
+                                        return (
+                                            <div key={index} className="break-inside-avoid job-entry" data-job={index}>
+                                                <div className="flex justify-between items-baseline mb-1">
+                                                    <h3 className="text-lg font-bold text-gray-900 job-title">
+                                                        {job.title}
+                                                    </h3>
+                                                    <div className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-300 flex gap-1">
+                                                        <span className="start-date">{job.startDate}</span>
+                                                        <span>TO</span>
+                                                        <span className="end-date">{job.endDate || 'Ongoing'}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="text-sm font-semibold text-blue-800 mb-2 flex gap-1">
+                                                    <span className="hover:underline cursor-pointer company">{job.company}</span>
+                                                    <span>@</span>
+                                                    <span className="location">{job.location}</span>
+                                                </div>
+                                                <div className="text-sm text-gray-700 leading-relaxed description" dangerouslySetInnerHTML={{ __html: descriptionContent }} />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        )}
 
-                    {certifications.length > 0 && (
-                        <section className="break-inside-avoid">
-                            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Certifications</h2>
-                            <ul className="text-sm text-gray-600 space-y-2">
-                                {certifications.map((cert, i) => (
-                                    <li key={i}>{cert}</li>
-                                ))}
-                            </ul>
-                        </section>
-                    )}
-                </aside>
+                    </main>
 
-                {/* Right Column: Summary & Experience */}
-                <main className="space-y-8">
-                    {summary && (
-                        <section className="break-inside-avoid">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-3">About Me</h2>
-                            <p className="text-gray-600 leading-relaxed text-sm">{summary}</p>
-                        </section>
-                    )}
+                    {/* Right Column */}
+                    <aside className="space-y-8">
 
-                    {experience.length > 0 && (
-                        <section>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6">Experience</h2>
-                            <div className="space-y-8 relative border-l-2 border-gray-100 pl-6 ml-2">
-                                {experience.map((job, index) => (
-                                    <div key={index} className="relative break-inside-avoid">
-                                        <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-blue-100 border-2 border-blue-500"></div>
-                                        <div className="flex justify-between items-baseline mb-2">
-                                            <h3 className="text-lg font-bold text-gray-900">{job.title}</h3>
-                                            <span className="text-xs font-mono text-gray-500 bg-gray-50 px-2 py-1 rounded">{job.startDate} — {job.endDate || 'Present'}</span>
+                        {/* Skills */}
+                        {skills.length > 0 && (
+                            <section className="break-inside-avoid skills" data-section="skills">
+                                <h2 className="text-lg font-bold text-blue-900 uppercase mb-3 flex items-center">
+                                    <span className="mr-2">#</span>
+                                    <span>Tech_Stack</span>
+                                </h2>
+                                <div className="flex flex-wrap gap-2 skills-list">
+                                    {skills.map((skill, i) => (
+                                        <span key={i} className="bg-white border border-gray-400 px-2 py-1 text-xs font-bold text-blue-900 rounded shadow-sm flex items-center skill-item">
+                                            <span className="skill-name">{skill.name}</span>
+                                        </span>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Education */}
+                        {education.length > 0 && (
+                            <section className="education" data-section="education">
+                                <h2 className="text-lg font-bold text-blue-900 uppercase mb-3 flex items-center">
+                                    <span className="mr-2">#</span>
+                                    <span>Education</span>
+                                </h2>
+                                <div className="space-y-4">
+                                    {education.map((edu, index) => (
+                                        <div key={index} className="break-inside-avoid education-item" data-education={index}>
+                                            <div className="font-bold text-gray-900 border-b border-dashed border-gray-400 pb-1 mb-1 school">
+                                                {edu.school}
+                                            </div>
+                                            <div className="text-xs text-gray-600 mb-1 degree">
+                                                {edu.degree}
+                                            </div>
+                                            <div className="text-xs font-mono text-gray-500 flex gap-1">
+                                                <span className="start-date">{edu.startDate}</span>
+                                                <span>-</span>
+                                                <span className="end-date">{edu.endDate}</span>
+                                            </div>
                                         </div>
-                                        <div className="text-blue-600 font-medium text-sm mb-3">{job.company}</div>
-                                        <ul className="list-disc list-outside ml-4 text-sm text-gray-600 space-y-2">
-                                            {job.description && job.description.split('\n').filter(line => line.trim()).map((line, i) => (
-                                                <li key={i}>{line.replace(/^[•-]\s*/, '')}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-                </main>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
 
+                        {/* Certifications */}
+                        {certifications && certifications.length > 0 && (
+                            <section className="break-inside-avoid certifications" data-section="certifications">
+                                <h2 className="text-lg font-bold text-blue-900 uppercase mb-3 flex items-center">
+                                    <span className="mr-2">#</span>
+                                    <span>Certs</span>
+                                </h2>
+                                <ul className="space-y-2 text-sm text-gray-700 font-mono">
+                                    {certifications.map((cert, i) => (
+                                        <li key={i} className="flex items-start">
+                                            <span className="text-green-600 mr-2">✓</span>
+                                            <span>{cert}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </section>
+                        )}
+
+                    </aside>
+                </div>
             </div>
         </div>
     );

@@ -67,6 +67,11 @@ const useResumeStore = create((set, get) => ({
     // ATS Scoring Helper
     calculateScore: () => {
         return get().resumeData.atsScore;
+    },
+
+    setResumeData: (newData) => {
+        set({ resumeData: newData });
+        storage.set('resume_data', newData);
     }
 }));
 

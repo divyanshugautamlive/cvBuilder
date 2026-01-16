@@ -144,3 +144,123 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #a1a1a1;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/*                 PHASE 2 UPDATE: UNIVERSAL INLINE EDITING                   */
+/* -------------------------------------------------------------------------- */
+
+/* Individual Editable Elements (NOT containers) */
+.auto-editable {
+    cursor: text;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.auto-editable:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+    outline: 1px dashed rgba(52, 152, 219, 0.3);
+    outline-offset: 2px;
+}
+
+.auto-editable:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+    background-color: rgba(52, 152, 219, 0.08);
+}
+
+/* Allow text selection within editable elements */
+.auto-editable * {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+}
+
+/* Fix cursor for nested elements */
+.auto-editable * {
+    cursor: text;
+}
+
+/* Placeholder for empty elements */
+.auto-editable:empty:before {
+    content: attr(data-placeholder);
+    color: #999;
+    font-style: italic;
+}
+
+/* Active formatting state in toolbar */
+.toolbar-btn.active {
+    background: #3498db;
+    color: white;
+    border-color: #2980b9;
+}
+
+/* Better visual feedback for editing mode */
+.editing-enabled .auto-editable:hover::after {
+    content: '✏️';
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-size: 12px;
+    background: #3498db;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.editing-enabled .auto-editable:hover::after {
+    opacity: 1;
+}
+
+/* Prevent selection of toolbar itself */
+.rich-text-toolbar,
+.preview-controls {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Smooth text selection */
+.editable-template-wrapper ::selection {
+    background-color: #3498db;
+    color: white;
+}
+
+.editable-template-wrapper ::-moz-selection {
+    background-color: #3498db;
+    color: white;
+}
+
+/* Edit Mode Info Panel */
+.edit-mode-info {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.edit-mode-info p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #495057;
+}
+
+.edit-mode-info kbd {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 12px;
+    border: 1px solid #ced4da;
+}
+
+/* OLD STYLES CLEANUP (Optional keeping some for reference or specific use cases) */
+.editable-wrapper {
+    position: relative;
+    /* Can remove if completely replaced */
+}

@@ -1,35 +1,44 @@
 import React from 'react';
 import useResumeStore from '../../../store/useResumeStore';
+import EditableTemplate from '../../EditableTemplate';
 
 // ATS-Approved Templates Only
 import ClassicTemplate from '../../templates/ClassicTemplate';
 import MinimalistTemplate from '../../templates/MinimalistTemplate';
 import ModernTemplate from '../../templates/ModernTemplate';
-import ExecutiveTemplate from './templates/ExecutiveTemplate';
-import TechTemplate from './templates/TechTemplate';
+import ExecutiveTemplate from '../../templates/ExecutiveTemplate';
+import TechTemplate from '../../templates/TechTemplate';
+import EntryLevelTemplate from '../../templates/EntryLevelTemplate';
 
 
-const TemplateRenderer = () => {
-    const { resumeData } = useResumeStore();
+const TemplateRenderer = ({ editable = false }) => {
+    const { resumeData, setResumeData } = useResumeStore();
     const { selectedTemplate } = resumeData;
 
     const renderTemplate = () => {
-        switch (selectedTemplate) {
-            case 'classic':
-                return <ClassicTemplate data={resumeData} />;
-            case 'minimalist':
-                return <MinimalistTemplate data={resumeData} />;
-            case 'modern':
-                return <ModernTemplate data={resumeData} />;
-            case 'executive':
-                return <ExecutiveTemplate data={resumeData} />;
-            case 'tech':
-                return <TechTemplate data={resumeData} />;
+        // Props without editable/onUpdateData specific to individual fields
+        // Since EditableTemplate handles updates, we just pass data to templates for rendering.
+        const props = {
+            data: resumeData,
+            // We pass onUpdateData just in case, but new templates won't use it directly for inline editing
+            // except if they have input fields (which we are removing).
+            onUpdateData: setResumeData,
+            editable: false // Disable internal template editing logic if any left
+        };
 
-            default:
-                // Default to Executive for any invalid/deleted template selections
-                return <ExecutiveTemplate data={resumeData} />;
-        }
+        const TemplateComponent = (() => {
+            switch (selectedTemplate) {
+                case 'classic': return ClassicTemplate;
+                case 'minimalist': return MinimalistTemplate;
+                case 'modern': return ModernTemplate;
+                case 'executive': return ExecutiveTemplate;
+                case 'tech': return TechTemplate;
+                case 'entrylevel': return EntryLevelTemplate;
+                default: return ExecutiveTemplate;
+            }
+        })();
+
+        return <TemplateComponent {...props} />;
     };
 
     return (
@@ -45,7 +54,13 @@ const TemplateRenderer = () => {
                 backgroundColor: '#ffffff'
             }}
         >
-            {renderTemplate()}
+            <EditableTemplate
+                resumeData={resumeData}
+                onUpdateData={setResumeData}
+                enabled={editable}
+            >
+                {renderTemplate()}
+            </EditableTemplate>
         </div>
     );
 };

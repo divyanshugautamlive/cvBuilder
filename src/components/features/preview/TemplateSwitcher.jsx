@@ -9,6 +9,7 @@ const templates = [
     { id: 'modern', name: 'Modern', desc: 'Sleek & Professional' },
     { id: 'executive', name: 'Corporate Executive', desc: 'Sophisticated & Formal' },
     { id: 'tech', name: 'Tech Industry', desc: 'Structured & Skill-Focused' },
+    { id: 'entrylevel', name: 'Entry Level', desc: 'Fresh & Focused' },
 ];
 
 const TemplateSwitcher = () => {
@@ -44,8 +45,8 @@ const TemplateSwitcher = () => {
                         key={t.id}
                         onClick={() => setTemplate(t.id)}
                         className={`p-3 rounded-lg border text-left transition-all ${resumeData.selectedTemplate === t.id
-                                ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
-                                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                            ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
+                            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                             }`}
                     >
                         <div className="font-medium text-gray-900 text-sm">{t.name}</div>

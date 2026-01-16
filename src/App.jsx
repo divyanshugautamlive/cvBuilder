@@ -16,6 +16,9 @@ const App = () => {
   // View State - Resume or Cover Letter
   const [activeView, setActiveView] = useState('resume'); // 'resume' or 'cover-letter'
 
+  // Edit Mode State
+  const [editMode, setEditMode] = useState(false);
+
   return (
     <MainLayout>
       {/* Navigation Tabs */}
@@ -24,8 +27,8 @@ const App = () => {
           <button
             onClick={() => setActiveView('resume')}
             className={`px-6 py-3 font-medium text-sm flex items-center gap-2 border-b-2 transition-colors ${activeView === 'resume'
-                ? 'border-blue-600 text-blue-600 bg-white'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-blue-600 text-blue-600 bg-white'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
           >
             <FileText size={18} /> Resume Builder
@@ -33,8 +36,8 @@ const App = () => {
           <button
             onClick={() => setActiveView('cover-letter')}
             className={`px-6 py-3 font-medium text-sm flex items-center gap-2 border-b-2 transition-colors ${activeView === 'cover-letter'
-                ? 'border-blue-600 text-blue-600 bg-white'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-blue-600 text-blue-600 bg-white'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
           >
             <Mail size={18} /> Cover Letter
@@ -75,7 +78,15 @@ const App = () => {
           `}>
             {/* Preview Toolbar */}
             <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm z-10">
-              <span className="font-semibold text-gray-500 text-sm uppercase tracking-wide">Live Preview</span>
+              <div className="flex items-center gap-3">
+                <span className="font-semibold text-gray-500 text-sm uppercase tracking-wide">Live Preview</span>
+                <button
+                  onClick={() => setEditMode(!editMode)}
+                  className={`edit-mode-toggle ${editMode ? 'active' : ''}`}
+                >
+                  {editMode ? '✓ Editing Enabled' : '✏️ Enable Inline Editing'}
+                </button>
+              </div>
               <div className="flex items-center gap-4">
                 <ExportButtons />
               </div>
@@ -86,15 +97,22 @@ const App = () => {
               <div className="max-w-[210mm] mx-auto space-y-6">
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                   <ATSScorer />
-                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 text-sm text-blue-800">
-                    <strong>ATS Tip:</strong> Stick to standard section headers and avoid using tables or graphics for best compatibility.
-                  </div>
+                  {editMode ? (
+                    <div className="edit-mode-info">
+                      <p>💡 Click any text to edit. Select text to format.</p>
+                      <p>Press <kbd>Ctrl+S</kbd> to save changes</p>
+                    </div>
+                  ) : (
+                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 text-sm text-blue-800">
+                      <strong>ATS Tip:</strong> Stick to standard section headers and avoid using tables or graphics for best compatibility.
+                    </div>
+                  )}
                 </div>
 
                 <TemplateSwitcher />
 
                 <div className="shadow-2xl">
-                  <TemplateRenderer />
+                  <TemplateRenderer editable={editMode} />
                 </div>
               </div>
             </div>
