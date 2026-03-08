@@ -1,0 +1,13 @@
+{
+    "id": "mars",
+    "name": "Mars",
+    "description": "Clean, compact, ATS-safe; print-first minimal design.",
+    "primaryAccent": "#2d3748",
+    "fonts": [
+        "Inter",
+        "system-ui"
+    ],
+    "layout": "single-column",
+    "ats_safe": true,
+    "ats_mode": true
+}

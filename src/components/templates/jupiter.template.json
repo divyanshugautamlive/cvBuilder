@@ -1,0 +1,12 @@
+{
+    "id": "jupiter",
+    "name": "Jupiter",
+    "description": "Modern header + accent; responsive; editor-friendly.",
+    "primaryAccent": "#1e6bb8",
+    "fonts": [
+        "Playfair Display",
+        "DM Sans"
+    ],
+    "layout": "two-column-header",
+    "ats_safe": false
+}

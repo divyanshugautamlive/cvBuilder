@@ -15,16 +15,11 @@ const DEFAULT_RESUME_DATA = {
     skills: [],
     certifications: [],
     selectedTemplate: "executive", // Default to executive template
-    atsScore: 0,
-    templateSettings: {
-        accentColor: '',   // empty = use template default
-        density: 'normal'  // 'compact', 'normal', 'relaxed'
-    },
-    sectionOrder: ['summary', 'experience', 'education', 'skills', 'certifications']
+    atsScore: 0
 };
 
 // Valid template IDs after cleanup
-const VALID_TEMPLATES = ['classic', 'minimalist', 'modern', 'executive', 'tech', 'entrylevel', 'jupiter', 'mars', 'blank'];
+const VALID_TEMPLATES = ['classic', 'minimalist', 'modern', 'executive', 'tech'];
 
 const useResumeStore = create((set, get) => ({
     resumeData: (() => {
@@ -60,21 +55,6 @@ const useResumeStore = create((set, get) => ({
             templateId = 'executive';
         }
         const newData = { ...get().resumeData, selectedTemplate: templateId };
-        set({ resumeData: newData });
-        storage.set('resume_data', newData);
-    },
-
-    updateTemplateSettings: (settings) => {
-        const newData = {
-            ...get().resumeData,
-            templateSettings: { ...get().resumeData.templateSettings, ...settings }
-        };
-        set({ resumeData: newData });
-        storage.set('resume_data', newData);
-    },
-
-    updateSectionOrder: (newOrder) => {
-        const newData = { ...get().resumeData, sectionOrder: newOrder };
         set({ resumeData: newData });
         storage.set('resume_data', newData);
     },

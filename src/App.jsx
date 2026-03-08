@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import MainLayout from './components/layout/MainLayout';
 import FormWizard from './components/features/form/FormWizard';
 import TemplateRenderer from './components/features/preview/TemplateRenderer';
+import TemplateSettings from './components/features/preview/TemplateSettings';
+import SectionReorder from './components/features/preview/SectionReorder';
 import TemplateSwitcher from './components/features/preview/TemplateSwitcher';
 import ATSScorer from './components/features/analysis/ATSScorer';
 import JobMatcher from './components/features/analysis/JobMatcher';
@@ -109,6 +111,8 @@ const App = () => {
                   )}
                 </div>
 
+                <TemplateSettings />
+                <SectionReorder />
                 <TemplateSwitcher />
 
                 <div className="shadow-2xl">

@@ -9,9 +9,6 @@ import ModernTemplate from '../../templates/ModernTemplate';
 import ExecutiveTemplate from '../../templates/ExecutiveTemplate';
 import TechTemplate from '../../templates/TechTemplate';
 import EntryLevelTemplate from '../../templates/EntryLevelTemplate';
-import JupiterTemplate from '../../templates/JupiterTemplate';
-import MarsTemplate from '../../templates/MarsTemplate';
-import BlankTemplate from '../../templates/BlankTemplate';
 
 
 const TemplateRenderer = ({ editable = false }) => {
@@ -23,10 +20,10 @@ const TemplateRenderer = ({ editable = false }) => {
         // Since EditableTemplate handles updates, we just pass data to templates for rendering.
         const props = {
             data: resumeData,
-            templateSettings: resumeData.templateSettings || { accentColor: '', density: 'normal' },
-            sectionOrder: resumeData.sectionOrder || ['summary', 'experience', 'education', 'skills', 'certifications'],
+            // We pass onUpdateData just in case, but new templates won't use it directly for inline editing
+            // except if they have input fields (which we are removing).
             onUpdateData: setResumeData,
-            editable: false
+            editable: false // Disable internal template editing logic if any left
         };
 
         const TemplateComponent = (() => {
@@ -37,9 +34,6 @@ const TemplateRenderer = ({ editable = false }) => {
                 case 'executive': return ExecutiveTemplate;
                 case 'tech': return TechTemplate;
                 case 'entrylevel': return EntryLevelTemplate;
-                case 'jupiter': return JupiterTemplate;
-                case 'mars': return MarsTemplate;
-                case 'blank': return BlankTemplate;
                 default: return ExecutiveTemplate;
             }
         })();
