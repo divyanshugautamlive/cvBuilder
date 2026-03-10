@@ -36,7 +36,7 @@ const SidebarTemplate = ({ data }) => {
                         <h3 className="text-xs font-bold uppercase tracking-widest text-white/60 border-b border-white/20 pb-2 mb-4">Education</h3>
                         <div className="space-y-4">
                             {education.map((edu, index) => (
-                                <div key={index}>
+                                <div key={index} className="education-entry break-inside-avoid">
                                     <div className="font-bold text-white text-sm">{edu.degree}</div>
                                     <div className="text-xs text-white/80">{edu.school}</div>
                                     <div className="text-xs text-white/60">{edu.graduationDate}</div>
@@ -78,7 +78,7 @@ const SidebarTemplate = ({ data }) => {
                         <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-6">Professional Experience</h2>
                         <div className="space-y-8">
                             {experience.map((exp, index) => (
-                                <div key={index}>
+                                <div key={index} className="job-entry break-inside-avoid">
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-xl font-bold text-gray-800">{exp.title}</h3>
                                         <span className="text-sm text-gray-500 font-medium">{exp.startDate} - {exp.current ? 'Present' : exp.endDate}</span>

@@ -32,7 +32,7 @@ const BoldTemplate = ({ data }) => {
                         <h2 className="text-2xl font-bold mb-4 uppercase tracking-wider" style={{ color: themeColor, borderBottom: `4px solid ${themeColor}` }}>Experience</h2>
                         <div className="space-y-6">
                             {experience.map((exp, index) => (
-                                <div key={index} className="relative pl-4 border-l-4" style={{ borderColor: `${themeColor}40` }}>
+                                <div key={index} className="relative pl-4 border-l-4 job-entry break-inside-avoid" style={{ borderColor: `${themeColor}40` }}>
                                     <h3 className="text-lg font-bold">{exp.title}</h3>
                                     <div className="text-md font-semibold text-gray-600 mb-1">{exp.company} | {exp.startDate} - {exp.current ? 'Present' : exp.endDate}</div>
                                     <p className="text-sm text-gray-700 whitespace-pre-line">{exp.description}</p>
@@ -48,7 +48,7 @@ const BoldTemplate = ({ data }) => {
                         <h2 className="text-2xl font-bold mb-4 uppercase tracking-wider" style={{ color: themeColor, borderBottom: `4px solid ${themeColor}` }}>Education</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {education.map((edu, index) => (
-                                <div key={index} className="bg-gray-50 p-4 rounded-r-lg border-l-4" style={{ borderColor: themeColor }}>
+                                <div key={index} className="bg-gray-50 p-4 rounded-r-lg border-l-4 education-entry break-inside-avoid" style={{ borderColor: themeColor }}>
                                     <h3 className="font-bold">{edu.school}</h3>
                                     <div className="text-sm text-gray-600">{edu.degree}</div>
                                     <div className="text-sm text-gray-500 italic">{edu.graduationDate}</div>

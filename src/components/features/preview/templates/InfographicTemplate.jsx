@@ -40,7 +40,7 @@ const InfographicTemplate = ({ data }) => {
                             </h2>
                             <div className="space-y-8">
                                 {experience.map((exp, index) => (
-                                    <div key={index} className="relative">
+                                    <div key={index} className="relative job-entry break-inside-avoid">
                                         <div className="flex justify-between items-baseline mb-2">
                                             <h3 className="text-lg font-bold" style={{ color: themeColor }}>{exp.title}</h3>
                                             <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">{exp.startDate} - {exp.current ? 'Now' : exp.endDate}</span>
@@ -83,7 +83,7 @@ const InfographicTemplate = ({ data }) => {
                         <section>
                             <h2 className="text-sm font-bold uppercase tracking-widest mb-4 border-b pb-2">Education</h2>
                             {education.map((edu, index) => (
-                                <div key={index} className="mb-4 last:mb-0">
+                                <div key={index} className="mb-4 last:mb-0 education-entry break-inside-avoid">
                                     <div className="font-bold text-sm">{edu.degree}</div>
                                     <div className="text-xs text-gray-600">{edu.school}</div>
                                     <div className="text-xs text-gray-400 mt-0.5">{edu.graduationDate}</div>

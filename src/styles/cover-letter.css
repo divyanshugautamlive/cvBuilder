@@ -136,6 +136,27 @@
     background: #059669;
 }
 
+.cl-export-pdf-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cl-export-pdf-btn:hover {
+    background: #b91c1c;
+}
+
+.cl-export-pdf-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
 /* Preview Panel */
 .cl-preview-pane {
     background: #f9fafb;

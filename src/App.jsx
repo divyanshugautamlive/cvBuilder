@@ -97,19 +97,7 @@ const App = () => {
             {/* Preview Canvas */}
             <div className="flex-1 overflow-y-auto p-8 custom-scrollbar relative">
               <div className="max-w-[210mm] mx-auto space-y-6">
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                  <ATSScorer />
-                  {editMode ? (
-                    <div className="edit-mode-info">
-                      <p>💡 Click any text to edit. Select text to format.</p>
-                      <p>Press <kbd>Ctrl+S</kbd> to save changes</p>
-                    </div>
-                  ) : (
-                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 text-sm text-blue-800">
-                      <strong>ATS Tip:</strong> Stick to standard section headers and avoid using tables or graphics for best compatibility.
-                    </div>
-                  )}
-                </div>
+                <ATSScorer />
 
                 <TemplateSettings />
                 <SectionReorder />

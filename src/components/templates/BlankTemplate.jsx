@@ -84,7 +84,7 @@ const BlankTemplate = ({ data, templateSettings = {} }) => {
                                     ? `<ul style="margin:4px 0 0 18px;padding:0;list-style:disc"><li>${job.description.split('\n').filter(l => l.trim()).map(l => l.replace(/^[•\-]\s*/, '')).join('</li><li>')}</li></ul>`
                                     : '');
                             return (
-                                <div key={index} className="job-entry" data-job={index} style={{ marginBottom: '12px' }}>
+                                <div key={index} className="job-entry break-inside-avoid" data-job={index} style={{ marginBottom: '12px' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                         <strong className="job-title">{job.title}</strong>
                                         <span style={{ fontSize: '12px', color: '#718096' }}>
@@ -112,7 +112,7 @@ const BlankTemplate = ({ data, templateSettings = {} }) => {
                             margin: '16px 0 8px'
                         }}>Education</h2>
                         {data.education.map((edu, index) => (
-                            <div key={index} className="education-item" data-education={index} style={{ marginBottom: '8px' }}>
+                            <div key={index} className="education-item break-inside-avoid" data-education={index} style={{ marginBottom: '8px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <strong className="school">{edu.school}</strong>
                                     <span style={{ fontSize: '12px', color: '#718096' }}>

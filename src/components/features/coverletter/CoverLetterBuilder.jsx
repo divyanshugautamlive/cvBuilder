@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useResumeStore from '../../../store/useResumeStore';
 import AIAssistButton from '../../ai/AIAssistButton';
 import CoverLetterPreview from './CoverLetterPreview';
+import CoverLetterTemplateSwitcher from './CoverLetterTemplateSwitcher';
 import '../../../styles/cover-letter.css';
 
 /**
@@ -9,6 +10,8 @@ import '../../../styles/cover-letter.css';
  */
 const CoverLetterBuilder = () => {
     const { resumeData } = useResumeStore();
+    const [selectedTemplate, setSelectedTemplate] = useState('classic');
+    const [exporting, setExporting] = useState(false);
     const [coverLetter, setCoverLetter] = useState({
         recipientName: '',
         recipientTitle: '',
@@ -25,51 +28,24 @@ const CoverLetterBuilder = () => {
     };
 
     const generateFullLetter = () => {
-        // Generate complete cover letter using AI
         const opening = `I am writing to express my strong interest in the ${coverLetter.jobTitle || 'position'} at ${coverLetter.companyName || 'your company'}. With my proven track record in delivering exceptional results, I am confident I would be an excellent addition to your team.`;
 
         const body = `Throughout my career, I have consistently demonstrated the ability to drive impactful outcomes. ${resumeData.experience?.[0] ? `As ${resumeData.experience[0].title} at ${resumeData.experience[0].company}, I developed skills that directly align with this role's requirements.` : ''} My expertise in ${resumeData.skills?.slice(0, 3).map(s => typeof s === 'string' ? s : s.name).join(', ') || 'key areas'} positions me to contribute immediately to your team's success.`;
 
         const closing = `I am excited about the opportunity to bring my skills and experience to ${coverLetter.companyName || 'your organization'}. I look forward to discussing how I can contribute to your team's continued success. Thank you for considering my application.`;
 
-        setCoverLetter(prev => ({
-            ...prev,
-            opening,
-            body,
-            closing
-        }));
+        setCoverLetter(prev => ({ ...prev, opening, body, closing }));
     };
 
-    const exportCoverLetter = () => {
-        // Create a downloadable text version
-        const content = `${resumeData.personalInfo?.fullName || 'Your Name'}
-${resumeData.personalInfo?.email || ''} | ${resumeData.personalInfo?.phone || ''}
-${resumeData.personalInfo?.location || ''}
-
-${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-
-${coverLetter.recipientName || 'Hiring Manager'}
-${coverLetter.recipientTitle || ''}
-${coverLetter.companyName || ''}
-
-Dear ${coverLetter.recipientName || 'Hiring Manager'},
-
-${coverLetter.opening}
-
-${coverLetter.body}
-
-${coverLetter.closing}
-
-Sincerely,
-${resumeData.personalInfo?.fullName || 'Your Name'}`;
-
-        const blob = new Blob([content], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `CoverLetter_${coverLetter.companyName || 'Draft'}.txt`;
-        a.click();
-        URL.revokeObjectURL(url);
+    const exportCoverLetterPDF = async () => {
+        setExporting(true);
+        try {
+            window.print();
+        } catch (err) {
+            console.error('Cover letter PDF export failed:', err);
+        } finally {
+            setExporting(false);
+        }
     };
 
     return (
@@ -172,8 +148,12 @@ ${resumeData.personalInfo?.fullName || 'Your Name'}`;
                         <button onClick={generateFullLetter} className="cl-ai-btn">
                             ✨ Auto-Generate Full Letter
                         </button>
-                        <button onClick={exportCoverLetter} className="cl-export-btn">
-                            📥 Export as Text
+                        <button
+                            onClick={exportCoverLetterPDF}
+                            className="cl-export-pdf-btn"
+                            disabled={exporting}
+                        >
+                            {exporting ? '⏳ Exporting...' : '📄 PDF'}
                         </button>
                     </div>
                 </div>
@@ -181,7 +161,15 @@ ${resumeData.personalInfo?.fullName || 'Your Name'}`;
 
             <div className="cl-preview-pane">
                 <h3 className="cl-preview-title">Preview</h3>
-                <CoverLetterPreview data={coverLetter} resumeData={resumeData} />
+                <CoverLetterTemplateSwitcher
+                    selected={selectedTemplate}
+                    onSelect={setSelectedTemplate}
+                />
+                <CoverLetterPreview
+                    data={coverLetter}
+                    resumeData={resumeData}
+                    template={selectedTemplate}
+                />
             </div>
         </div>
     );

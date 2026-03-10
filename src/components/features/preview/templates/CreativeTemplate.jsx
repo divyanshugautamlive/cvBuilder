@@ -51,7 +51,7 @@ const CreativeTemplate = ({ data }) => {
                             <section>
                                 <h2 className="text-lg font-bold mb-3" style={{ color: themeColor }}>Education</h2>
                                 {education.map((edu, index) => (
-                                    <div key={index} className="mb-4">
+                                    <div key={index} className="mb-4 education-entry break-inside-avoid">
                                         <div className="font-bold text-gray-800">{edu.school}</div>
                                         <div className="text-sm text-gray-500">{edu.degree}</div>
                                         <div className="text-xs text-gray-400">{edu.graduationDate}</div>
@@ -68,7 +68,7 @@ const CreativeTemplate = ({ data }) => {
                                 <h2 className="text-3xl font-black mb-8 opacity-10 uppercase tracking-tighter" style={{ color: themeColor }}>Works</h2>
                                 <div className="space-y-10">
                                     {experience.map((exp, index) => (
-                                        <div key={index} className="group">
+                                        <div key={index} className="group job-entry break-inside-avoid">
                                             <div className="flex items-center gap-4 mb-2">
                                                 <div className="w-12 h-12 flex items-center justify-center bg-gray-50 rounded-lg text-xl font-bold text-gray-300 group-hover:bg-gray-900 group-hover:text-white transition-colors duration-300">
                                                     {index + 1}

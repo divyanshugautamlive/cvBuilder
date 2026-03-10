@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, X, Download, Sparkles } from 'lucide-react';
 import PersonalInfoStep from './PersonalInfoStep';
 import SummaryStep from './SummaryStep';
 import ExperienceStep from './ExperienceStep';
@@ -10,9 +10,9 @@ import useAutoSave from '../../../hooks/useAutoSave';
 
 const FormWizard = () => {
     const [currentStep, setCurrentStep] = useState(1);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const { resumeData } = useResumeStore();
 
-    // Enable auto-save
     useAutoSave();
 
     const steps = [
@@ -26,14 +26,9 @@ const FormWizard = () => {
     const validateStep = (step) => {
         const { personalInfo, experience } = resumeData;
         switch (step) {
-            case 1:
-                return personalInfo.fullName && personalInfo.email; // Basic requirement
-            case 3:
-                // Require at least one job if experience array exists? 
-                // Let's make it soft required i.e. warn only, or strict as per prompt "at least 1 work experience"
-                return experience.length > 0;
-            default:
-                return true;
+            case 1: return personalInfo.fullName && personalInfo.email;
+            case 3: return experience.length > 0;
+            default: return true;
         }
     };
 
@@ -47,13 +42,16 @@ const FormWizard = () => {
         }
     };
 
+    const handleFinish = () => {
+        setShowSuccessModal(true);
+    };
+
     const handleBack = () => {
-        if (currentStep > 1) {
-            setCurrentStep(currentStep - 1);
-        }
+        if (currentStep > 1) setCurrentStep(currentStep - 1);
     };
 
     const CurrentComponent = steps.find(s => s.id === currentStep).component;
+    const isLastStep = currentStep === steps.length;
 
     return (
         <div className="flex flex-col h-full">
@@ -88,21 +86,86 @@ const FormWizard = () => {
                     onClick={handleBack}
                     disabled={currentStep === 1}
                     className={`flex items-center gap-2 px-6 py-2 rounded-md font-medium transition-colors ${currentStep === 1
-                            ? 'text-gray-300 cursor-not-allowed'
-                            : 'text-gray-600 hover:bg-gray-100'
-                        }`}
+                        ? 'text-gray-300 cursor-not-allowed'
+                        : 'text-gray-600 hover:bg-gray-100'
+                    }`}
                 >
                     <ArrowLeft size={18} /> Back
                 </button>
 
-                <button
-                    onClick={handleNext}
-                    disabled={currentStep === steps.length} // Disable next on last step? Or change text to Finish
-                    className="bg-blue-600 text-white px-6 py-2 rounded-md font-medium hover:bg-blue-700 flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    {currentStep === steps.length ? 'Finish' : 'Next'} <ArrowRight size={18} />
-                </button>
+                {isLastStep ? (
+                    <button
+                        onClick={handleFinish}
+                        className="bg-green-600 text-white px-6 py-2 rounded-md font-medium hover:bg-green-700 flex items-center gap-2 transition-colors shadow-lg shadow-green-600/25"
+                    >
+                        <Check size={18} /> Finish
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleNext}
+                        className="bg-blue-600 text-white px-6 py-2 rounded-md font-medium hover:bg-blue-700 flex items-center gap-2 transition-colors"
+                    >
+                        Next <ArrowRight size={18} />
+                    </button>
+                )}
             </div>
+
+            {/* Success Modal */}
+            {showSuccessModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]" onClick={() => setShowSuccessModal(false)}>
+                    <div
+                        className="bg-white rounded-2xl shadow-2xl p-8 max-w-md mx-4 text-center relative"
+                        onClick={e => e.stopPropagation()}
+                        style={{ animation: 'modalPop 0.3s ease-out' }}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={() => setShowSuccessModal(false)}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
+                        >
+                            <X size={20} />
+                        </button>
+
+                        {/* Success icon */}
+                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                            <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center">
+                                <Check size={32} className="text-white" strokeWidth={3} />
+                            </div>
+                        </div>
+
+                        {/* Sparkle decoration */}
+                        <div className="flex justify-center mb-3">
+                            <Sparkles size={24} className="text-yellow-500" />
+                        </div>
+
+                        {/* Message */}
+                        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                            Congratulations!
+                        </h2>
+                        <p className="text-gray-600 mb-1 text-lg font-medium">
+                            Your ATS-friendly resume is ready to download
+                        </p>
+                        <p className="text-gray-400 text-sm mb-6">
+                            Preview it on the right panel and click "Download PDF" to save.
+                        </p>
+
+                        {/* OK Button */}
+                        <button
+                            onClick={() => setShowSuccessModal(false)}
+                            className="bg-green-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/25 text-base w-full"
+                        >
+                            OK, Got it!
+                        </button>
+                    </div>
+
+                    <style>{`
+                        @keyframes modalPop {
+                            0% { opacity: 0; transform: scale(0.85) translateY(20px); }
+                            100% { opacity: 1; transform: scale(1) translateY(0); }
+                        }
+                    `}</style>
+                </div>
+            )}
         </div>
     );
 };

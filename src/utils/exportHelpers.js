@@ -1,6 +1,8 @@
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import { exportResumeAsPDF } from './pdfExport';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from 'docx';
+
+// Re-export so ExportButtons can import from one place
+export { exportResumeAsPDF };
 
 /**
  * Force download a blob as a file with proper filename
@@ -28,121 +30,6 @@ const forceDownload = (blob, filename) => {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
     }, 250);
-};
-
-/**
- * Generate PDF using html2canvas + jsPDF
- * Captures the element directly at its exact rendered size.
- * Uses html2canvas onclone to resolve CSS variables in the internal clone.
- */
-export const exportToPDF = async (elementId) => {
-    const element = document.getElementById(elementId);
-    if (!element) {
-        throw new Error(`Element with id "${elementId}" not found`);
-    }
-
-    try {
-        // Get the element's exact rendered dimensions
-        const rect = element.getBoundingClientRect();
-        const elWidth = Math.round(rect.width);
-        const elHeight = Math.round(rect.height);
-
-        // Temporarily scroll to top and remove any transforms that could affect capture
-        const scrollParent = element.closest('.overflow-y-auto') || element.parentElement;
-        const origScroll = scrollParent ? scrollParent.scrollTop : 0;
-        if (scrollParent) scrollParent.scrollTop = 0;
-
-        // Small delay for scroll to settle
-        await new Promise(r => setTimeout(r, 50));
-
-        const canvas = await html2canvas(element, {
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff',
-            logging: false,
-            width: elWidth,
-            height: elHeight,
-            windowWidth: elWidth,
-            scrollX: -window.scrollX,
-            scrollY: -window.scrollY,
-            onclone: (clonedDoc) => {
-                // Resolve CSS custom properties in the cloned document
-                const clonedEl = clonedDoc.getElementById(elementId);
-                if (clonedEl) {
-                    // Force the cloned element to use the same dimensions
-                    clonedEl.style.width = elWidth + 'px';
-                    clonedEl.style.minHeight = 'auto';
-                    clonedEl.style.boxShadow = 'none';
-                    clonedEl.style.overflow = 'visible';
-
-                    // Resolve all var(--xxx) CSS custom properties
-                    const resolveVars = (el) => {
-                        const computed = window.getComputedStyle(
-                            // Find matching element in original document
-                            document.getElementById(elementId)
-                        );
-                        // Walk all elements and inline any CSS variable values
-                        const allEls = el.querySelectorAll('*');
-                        allEls.forEach((cloneChild, idx) => {
-                            const style = cloneChild.getAttribute('style') || '';
-                            if (style.includes('var(')) {
-                                // Replace var(--xxx) with computed values
-                                const newStyle = style.replace(
-                                    /var\(--[^)]+\)/g,
-                                    (match) => {
-                                        const varName = match.slice(4, -1).trim();
-                                        const rootComputed = getComputedStyle(document.documentElement);
-                                        return rootComputed.getPropertyValue(varName) || match;
-                                    }
-                                );
-                                cloneChild.setAttribute('style', newStyle);
-                            }
-                        });
-                    };
-                    resolveVars(clonedEl);
-                }
-            }
-        });
-
-        // Restore scroll position
-        if (scrollParent) scrollParent.scrollTop = origScroll;
-
-        // Create PDF
-        const pdf = new jsPDF({
-            orientation: 'portrait',
-            unit: 'mm',
-            format: 'a4'
-        });
-
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-        let heightLeft = imgHeight;
-        let position = 0;
-        const imgData = canvas.toDataURL('image/png');
-
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-
-        while (heightLeft > 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pdfHeight;
-        }
-
-        const pdfBlob = pdf.output('blob');
-        forceDownload(pdfBlob, 'resume.pdf');
-
-        console.log('PDF exported successfully');
-        return true;
-    } catch (error) {
-        console.error('PDF export failed:', error);
-        throw error;
-    }
 };
 
 /**

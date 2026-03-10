@@ -7,63 +7,33 @@
 @tailwind components;
 @tailwind utilities;
 
-/* A4 Page Rules for Print/Export */
-/* A4 Page Rules for Print/Export */
-@page {
-    size: A4;
-    margin: 0;
-    /* We handle margins in the body/content to ensure background colors bleed if needed */
-}
-
-/* Print Specifics - The Real Export Logic */
+/* Print Specifics */
 @media print {
+    @page { size: A4 portrait; margin: 0; }
 
-    html,
-    body {
+    html, body {
         width: 210mm;
-        height: 297mm;
-        margin: 0;
-        padding: 0;
-        overflow: visible !important;
-    }
-
-    /* Hide everything except the printable area */
-    body * {
-        visibility: hidden;
-    }
-
-    #resume-preview,
-    #resume-preview * {
-        visibility: visible;
-    }
-
-    #resume-preview {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 210mm;
-        /* Remove fixed height for print so it flows naturally */
-        min-height: 297mm;
-        height: auto !important;
-        margin: 0;
+        margin: 0 !important;
         padding: 0 !important;
-        /* Reset padding, let the inner container handle it if needed */
-        box-shadow: none;
-        transform: none !important;
         overflow: visible !important;
-        background: white;
     }
 
-    /* Important: Force background graphics to print */
-    * {
+    /* Force backgrounds to print */
+    *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
-    /* Hide the visual page break markers in print */
-    .page-break-marker {
-        display: none !important;
+    /* Page break control */
+    .job-entry, .education-item, .break-inside-avoid, section {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
+
+    /* Hide edit artefacts */
+    .auto-editable { outline: none !important; cursor: default !important; }
+    .auto-editable:hover::after { display: none !important; }
+    .page-break-marker { display: none !important; }
 }
 
 /* Page Break Utilities */

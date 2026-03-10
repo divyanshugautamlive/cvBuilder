@@ -38,7 +38,7 @@ const GradientTemplate = ({ data }) => {
                         </h2>
                         <div className="space-y-8">
                             {experience.map((exp, index) => (
-                                <div key={index} className="relative pl-6 border-l-2 border-gray-100">
+                                <div key={index} className="relative pl-6 border-l-2 border-gray-100 job-entry break-inside-avoid">
                                     <div className="absolute -left-[5px] top-2 w-2 h-2 rounded-full" style={{ backgroundColor: themeColor }}></div>
                                     <div className="flex justify-between items-baseline mb-1">
                                         <h3 className="text-lg font-bold text-gray-800">{exp.title}</h3>
@@ -64,7 +64,7 @@ const GradientTemplate = ({ data }) => {
                             </h2>
                             <div className="space-y-4">
                                 {education.map((edu, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="education-entry break-inside-avoid">
                                         <h3 className="font-bold text-gray-800">{edu.school}</h3>
                                         <div className="text-sm text-gray-600">{edu.degree}</div>
                                         <div className="text-xs text-gray-400 mt-1">{edu.graduationDate}</div>

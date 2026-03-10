@@ -1,54 +1,49 @@
 import React, { useState } from 'react';
-import { Download, FileText, File } from 'lucide-react';
-import useResumeStore from '../../../store/useResumeStore';
-import { exportToPDF, exportToDOCX, exportToTXT } from '../../../utils/exportHelpers';
+import { Printer } from 'lucide-react';
 
 const ExportButtons = () => {
-    const { resumeData } = useResumeStore();
     const [loading, setLoading] = useState(false);
 
-    const handleExport = async (type) => {
+    const handlePrintPDF = () => {
+        const preview = document.getElementById('resume-preview');
+        if (!preview) return;
+
         setLoading(true);
-        try {
-            if (type === 'pdf') {
-                await exportToPDF('resume-preview');
-            } else if (type === 'docx') {
-                await exportToDOCX(resumeData);
-            } else if (type === 'txt') {
-                exportToTXT(resumeData);
-            }
-        } catch (e) {
-            console.error(e);
-            alert('Export failed. Please try again.');
-        } finally {
-            setLoading(false);
-        }
+        const clone = preview.cloneNode(true);
+        clone.id = 'print-clone';
+        clone.style.cssText = `
+            position: fixed; top: 0; left: 0;
+            width: 210mm; min-height: 297mm;
+            margin: 0; padding: ${getComputedStyle(preview).padding};
+            box-shadow: none; z-index: 999999;
+            background: white; overflow: visible;
+        `;
+        const root = document.getElementById('root');
+        root.style.display = 'none';
+        document.body.appendChild(clone);
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+
+        setTimeout(() => {
+            window.print();
+            setTimeout(() => {
+                document.body.removeChild(clone);
+                root.style.display = '';
+                document.body.style.margin = '';
+                document.body.style.padding = '';
+                setLoading(false);
+            }, 500);
+        }, 200);
     };
 
     return (
-        <div className="flex gap-2">
-            <button
-                onClick={() => handleExport('pdf')}
-                disabled={loading}
-                className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 transition"
-            >
-                <FileText size={18} /> PDF
-            </button>
-            <button
-                onClick={() => handleExport('docx')}
-                disabled={loading}
-                className="flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded shadow hover:bg-blue-800 transition"
-            >
-                <FileText size={18} /> DOCX
-            </button>
-            <button
-                onClick={() => handleExport('txt')}
-                disabled={loading}
-                className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded shadow hover:bg-gray-700 transition"
-            >
-                <File size={18} /> TXT
-            </button>
-        </div>
+        <button onClick={handlePrintPDF} disabled={loading}
+            className="flex items-center gap-1.5 bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 transition disabled:opacity-50 text-sm font-medium"
+            title="Opens print dialog — select 'Save as PDF'"
+        >
+            <Printer size={16} />
+            {loading ? 'Preparing...' : 'Download PDF'}
+        </button>
     );
 };
 
