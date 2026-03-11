@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVDesignHub — ATS-Friendly Resume Builder | A Crowcent Product</title>
+<meta name="description" content="Build ATS-friendly resumes that get past filters. Real text PDF export, live editing, professional templates. Free, no signup required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Inter',system-ui,sans-serif;
+  background:#0a0a0f; color:#c9c9d9;
+  font-size:16px; line-height:1.7;
+  overflow-x:hidden;
+}
+a { color:inherit; text-decoration:none; }
+ul { list-style:none; }
+img { max-width:100%; display:block; }
+h1,h2,h3,h4 { color:#fff; line-height:1.2; }
+section { position:relative; }
+.container { max-width:1200px; margin:0 auto; padding:0 24px; }
+
+/* ═══════════════════════════════════
+   SCROLL ANIMATION
+   ═══════════════════════════════════ */
+.reveal {
+  opacity:0; transform:translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity:1; transform:translateY(0);
+}
+
+/* ═══════════════════════════════════
+   NAVBAR
+   ═══════════════════════════════════ */
+.navbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:16px 0; transition: all 0.3s ease;
+}
+.navbar.scrolled {
+  background:rgba(10,10,15,0.85);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(108,99,255,0.1);
+  padding:12px 0;
+}
+.navbar .container {
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-brand {
+  font-size:22px; font-weight:800; color:#fff; letter-spacing:-0.02em;
+}
+.nav-brand .dot { color:#6c63ff; }
+.nav-links { display:flex; align-items:center; gap:32px; }
+.nav-links a {
+  font-size:14px; font-weight:500; color:#c9c9d9;
+  transition:color 0.2s;
+}
+.nav-links a:hover { color:#fff; }
+.nav-cta {
+  background:#6c63ff; color:#fff !important; padding:10px 22px;
+  border-radius:8px; font-weight:600; font-size:14px;
+  transition: all 0.2s;
+  border:none; cursor:pointer;
+}
+.nav-cta:hover {
+  box-shadow:0 0 24px rgba(108,99,255,0.4);
+  transform:scale(1.03);
+}
+.hamburger {
+  display:none; background:none; border:none; cursor:pointer;
+  flex-direction:column; gap:5px; padding:4px;
+}
+.hamburger span {
+  display:block; width:24px; height:2px; background:#fff;
+  transition: all 0.3s;
+}
+.mobile-menu {
+  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(10,10,15,0.97); z-index:99;
+  flex-direction:column; align-items:center; justify-content:center; gap:32px;
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu a {
+  font-size:20px; font-weight:600; color:#c9c9d9;
+  transition:color 0.2s;
+}
+.mobile-menu a:hover { color:#fff; }
+.mobile-close {
+  position:absolute; top:20px; right:24px;
+  background:none; border:none; color:#fff; font-size:28px; cursor:pointer;
+}
+
+@media(max-width:768px) {
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+}
+
+/* ═══════════════════════════════════
+   HERO
+   ═══════════════════════════════════ */
+.hero {
+  min-height:100vh; display:flex; align-items:center;
+  padding:120px 0 80px; position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size:128px; pointer-events:none; z-index:1;
+}
+.hero-orb {
+  position:absolute; border-radius:50%; filter:blur(100px); opacity:0.3;
+  pointer-events:none;
+}
+.hero-orb-1 { width:500px; height:500px; background:#6c63ff; top:-100px; left:-100px; }
+.hero-orb-2 { width:400px; height:400px; background:#00d4aa; top:20%; right:-80px; }
+.hero-orb-3 { width:350px; height:350px; background:#ff6b6b; bottom:-50px; left:30%; opacity:0.15; }
+
+.hero .container {
+  display:grid; grid-template-columns:1fr 1fr; gap:60px;
+  align-items:center; position:relative; z-index:2;
+}
+.hero-content { max-width:560px; }
+.eyebrow {
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:11px; text-transform:uppercase; letter-spacing:0.15em;
+  color:#00d4aa; font-weight:600; margin-bottom:20px;
+}
+.eyebrow::before {
+  content:''; width:3px; height:20px; background:#00d4aa; border-radius:2px;
+}
+.hero h1 {
+  font-size:clamp(40px,5.5vw,64px); font-weight:800;
+  letter-spacing:-0.03em; margin-bottom:20px;
+}
+.hero h1 .gradient-text {
+  background:linear-gradient(135deg,#6c63ff,#00d4aa);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub {
+  font-size:18px; color:#a0a0b8; margin-bottom:32px; max-width:460px;
+}
+.hero-ctas { display:flex; gap:16px; margin-bottom:28px; flex-wrap:wrap; }
+.btn-primary {
+  background:#6c63ff; color:#fff; padding:14px 28px; border-radius:10px;
+  font-weight:600; font-size:15px; border:none; cursor:pointer;
+  transition:all 0.2s; display:inline-flex; align-items:center; gap:6px;
+}
+.btn-primary:hover {
+  box-shadow:0 0 30px rgba(108,99,255,0.45); transform:scale(1.03);
+}
+.btn-secondary {
+  background:transparent; color:#c9c9d9; padding:14px 28px; border-radius:10px;
+  font-weight:600; font-size:15px; cursor:pointer;
+  border:1px solid rgba(108,99,255,0.4); transition:all 0.2s;
+}
+.btn-secondary:hover {
+  background:#6c63ff; color:#fff; border-color:#6c63ff;
+}
+.social-proof {
+  font-size:13px; color:#7a7a90; line-height:1.8;
+}
+.social-proof span { color:#00d4aa; }
+
+/* Floating mockup */
+.hero-mockup {
+  background:#12121a; border:1px solid rgba(108,99,255,0.3);
+  border-radius:12px; padding:24px 28px; position:relative;
+  box-shadow:0 0 40px rgba(108,99,255,0.12);
+  transform:rotate(2deg); animation:floaty 4s ease-in-out infinite;
+}
+@keyframes floaty {
+  0%,100% { transform:rotate(2deg) translateY(0); }
+  50% { transform:rotate(2deg) translateY(-10px); }
+}
+.mockup-bar { height:4px; background:#6c63ff; border-radius:2px; margin-bottom:16px; }
+.mockup-name {
+  font-size:20px; font-weight:700; color:#fff; margin-bottom:4px;
+}
+.mockup-title { font-size:10px; color:#6c63ff; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+.mockup-contact { font-size:11px; color:#7a7a90; margin-bottom:14px; }
+.mockup-section-label {
+  display:flex; align-items:center; gap:6px;
+  font-size:9px; text-transform:uppercase; letter-spacing:0.12em;
+  color:#6c63ff; font-weight:700; margin:12px 0 6px;
+}
+.mockup-section-label::before { content:''; width:3px; height:10px; background:#6c63ff; border-radius:1px; }
+.mockup-line { height:7px; background:#1a1a28; border-radius:3px; margin-bottom:5px; }
+.mockup-line.w80 { width:80%; } .mockup-line.w60 { width:60%; }
+.mockup-line.w90 { width:90%; } .mockup-line.w70 { width:70%; }
+.mockup-pills { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
+.mockup-pill {
+  background:rgba(108,99,255,0.12); border:1px solid rgba(108,99,255,0.25);
+  padding:3px 10px; border-radius:10px; font-size:9px; color:#6c63ff; font-weight:600;
+}
+
+@media(max-width:768px) {
+  .hero .container { grid-template-columns:1fr; text-align:center; }
+  .hero-content { max-width:100%; margin:0 auto; }
+  .eyebrow { justify-content:center; }
+  .hero-sub { margin:0 auto 32px; }
+  .hero-ctas { justify-content:center; }
+  .hero-mockup { display:none; }
+}
+
+/* ═══════════════════════════════════
+   PROBLEM → SOLUTION
+   ═══════════════════════════════════ */
+.problem-solution {
+  background:#0d0d15; padding:80px 0;
+  border-top:1px solid rgba(108,99,255,0.1);
+  border-bottom:1px solid rgba(108,99,255,0.1);
+}
+.ps-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+.ps-col h3 { font-size:24px; font-weight:700; margin-bottom:20px; }
+.ps-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; font-size:15px; }
+.ps-icon { font-size:18px; flex-shrink:0; margin-top:2px; }
+.ps-icon.bad { color:#ff6b6b; }
+.ps-icon.good { color:#00d4aa; }
+
+@media(max-width:768px) {
+  .ps-grid { grid-template-columns:1fr; gap:40px; }
+}
+
+/* ═══════════════════════════════════
+   FEATURES
+   ═══════════════════════════════════ */
+.features { padding:100px 0; }
+.section-label {
+  font-size:11px; text-transform:uppercase; letter-spacing:0.15em;
+  color:#6c63ff; font-weight:600; margin-bottom:12px;
+}
+.section-heading {
+  font-size:clamp(28px,4vw,36px); font-weight:700; margin-bottom:48px;
+}
+.features-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+}
+.feature-card {
+  background:rgba(18,18,26,0.6);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(108,99,255,0.15);
+  border-radius:14px; padding:32px 28px;
+  transition: all 0.3s ease;
+}
+.feature-card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 8px 32px rgba(108,99,255,0.18);
+  border-color:rgba(108,99,255,0.4);
+}
+.feature-icon { font-size:32px; margin-bottom:16px; display:block; }
+.feature-card h4 { font-size:17px; font-weight:700; margin-bottom:8px; }
+.feature-card p { font-size:14px; color:#a0a0b8; line-height:1.6; }
+
+@media(max-width:768px) {
+  .features-grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:480px) {
+  .features-grid { grid-template-columns:1fr; }
+}
+
+/* ═══════════════════════════════════
+   HOW IT WORKS
+   ═══════════════════════════════════ */
+.how-it-works {
+  padding:100px 0;
+  background:#0d0d15;
+  border-top:1px solid rgba(108,99,255,0.1);
+  border-bottom:1px solid rgba(108,99,255,0.1);
+}
+.steps { display:flex; gap:32px; align-items:flex-start; }
+.step {
+  flex:1; text-align:center; padding:32px 20px;
+}
+.step-num {
+  width:56px; height:56px; border-radius:50%;
+  background:rgba(108,99,255,0.12); border:2px solid #6c63ff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; font-weight:800; color:#6c63ff;
+  margin:0 auto 20px;
+}
+.step h4 { font-size:18px; font-weight:700; margin-bottom:10px; }
+.step p { font-size:14px; color:#a0a0b8; line-height:1.6; }
+.step-arrow {
+  display:flex; align-items:center; padding-top:48px;
+  font-size:24px; color:rgba(108,99,255,0.4);
+}
+
+@media(max-width:768px) {
+  .steps { flex-direction:column; }
+  .step-arrow { display:none; }
+}
+
+/* ═══════════════════════════════════
+   TEMPLATE SHOWCASE
+   ═══════════════════════════════════ */
+.showcase { padding:100px 0; }
+.showcase-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:60px;
+  align-items:center;
+}
+.showcase-mockup {
+  background:#12121a; border:1px solid rgba(108,99,255,0.3);
+  border-radius:14px; padding:28px 32px;
+  box-shadow:0 0 50px rgba(108,99,255,0.1);
+  animation:floaty 5s ease-in-out infinite;
+}
+.showcase-bullets { list-style:none; }
+.showcase-bullets li {
+  font-size:15px; margin-bottom:14px; display:flex; align-items:flex-start; gap:10px;
+}
+.showcase-bullets li::before { content:'✦'; color:#6c63ff; font-size:14px; flex-shrink:0; margin-top:2px; }
+.showcase-info h3 { font-size:32px; font-weight:700; margin-bottom:8px; }
+.showcase-info .sub { color:#a0a0b8; margin-bottom:28px; font-size:15px; }
+
+@media(max-width:768px) {
+  .showcase-grid { grid-template-columns:1fr; }
+  .showcase-mockup { max-width:400px; margin:0 auto; }
+}
+
+/* ═══════════════════════════════════
+   FAQ
+   ═══════════════════════════════════ */
+.faq { padding:100px 0; background:#0d0d15; border-top:1px solid rgba(108,99,255,0.1); }
+.faq-list { max-width:720px; margin:0 auto; }
+.faq-item {
+  border-bottom:1px solid rgba(108,99,255,0.12);
+}
+.faq-q {
+  width:100%; background:none; border:none; color:#fff;
+  font-size:16px; font-weight:600; font-family:inherit;
+  padding:20px 0; cursor:pointer; text-align:left;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.faq-q:hover { color:#6c63ff; }
+.faq-chevron {
+  font-size:18px; transition:transform 0.3s; color:#6c63ff;
+}
+.faq-item.open .faq-chevron { transform:rotate(180deg); }
+.faq-a {
+  max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-a { max-height:200px; padding-bottom:20px; }
+.faq-a p { font-size:14px; color:#a0a0b8; line-height:1.7; }
+
+/* ═══════════════════════════════════
+   FINAL CTA
+   ═══════════════════════════════════ */
+.final-cta {
+  padding:100px 0; text-align:center;
+  background:linear-gradient(135deg, rgba(108,99,255,0.15), rgba(0,212,170,0.1));
+  border-top:1px solid rgba(108,99,255,0.15);
+}
+.final-cta h2 { font-size:clamp(28px,4vw,40px); font-weight:800; margin-bottom:12px; }
+.final-cta .sub { color:#a0a0b8; margin-bottom:32px; font-size:16px; }
+.final-cta .tagline { margin-top:20px; font-size:13px; color:rgba(255,255,255,0.4); }
+
+/* ═══════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════ */
+.footer {
+  padding:32px 0;
+  border-top:1px solid rgba(108,99,255,0.2);
+}
+.footer .container {
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+}
+.footer-brand { font-size:14px; color:#7a7a90; }
+.footer-brand strong { color:#c9c9d9; }
+.footer-center { font-size:11px; text-transform:uppercase; letter-spacing:0.12em; color:#6c63ff; }
+
+@media(max-width:768px) {
+  .footer .container { flex-direction:column; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a href="#" class="nav-brand">CVDesignHub<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#templates">Templates</a>
+      <a href="#faq">FAQ</a>
+      <a href="/" class="nav-cta">Build My Resume &rarr;</a>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">&times;</button>
+  <a href="#features" onclick="closeMobile()">Features</a>
+  <a href="#how-it-works" onclick="closeMobile()">How It Works</a>
+  <a href="#templates" onclick="closeMobile()">Templates</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="/" class="nav-cta" style="margin-top:12px">Build My Resume &rarr;</a>
+</div>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="container">
+    <div class="hero-content reveal">
+      <div class="eyebrow">ATS-Optimized Resume Builder</div>
+      <h1>
+        Your Resume.<br>
+        <span class="gradient-text">Their First Yes.</span>
+      </h1>
+      <p class="hero-sub">Build resumes that get read — not filtered out. Real text export. ATS-ready. Professionally designed.</p>
+      <div class="hero-ctas">
+        <a href="/" class="btn-primary">Start Building Free &rarr;</a>
+        <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+      </div>
+      <div class="social-proof">
+        <span>✦</span> Trusted by job seekers across 20+ countries<br>
+        <span>✦</span> Real PDF export — not a screenshot &middot; A Crowcent Product
+      </div>
+    </div>
+    <div class="hero-mockup reveal">
+      <div class="mockup-bar"></div>
+      <div class="mockup-name">John Anderson</div>
+      <div class="mockup-title">Senior Product Designer</div>
+      <div class="mockup-contact">john@email.com &nbsp;|&nbsp; +1 555-0123 &nbsp;|&nbsp; San Francisco, CA</div>
+      <div class="mockup-section-label">Professional Summary</div>
+      <div class="mockup-line w90"></div>
+      <div class="mockup-line w80"></div>
+      <div class="mockup-line w70"></div>
+      <div class="mockup-section-label">Work Experience</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:12px;font-weight:600;color:#fff">Lead Designer</span>
+        <span style="font-size:10px;color:#7a7a90">2022 - Present</span>
+      </div>
+      <div style="font-size:10px;color:#6c63ff;margin-bottom:6px">TechCorp Inc.</div>
+      <div class="mockup-line w90"></div>
+      <div class="mockup-line w80"></div>
+      <div class="mockup-section-label">Skills</div>
+      <div class="mockup-pills">
+        <span class="mockup-pill">UI/UX</span>
+        <span class="mockup-pill">Figma</span>
+        <span class="mockup-pill">React</span>
+        <span class="mockup-pill">Design Systems</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ PROBLEM → SOLUTION ═══════ -->
+<section class="problem-solution">
+  <div class="container">
+    <div class="ps-grid">
+      <div class="ps-col reveal">
+        <h3>Most resumes never reach a human.</h3>
+        <div class="ps-item"><span class="ps-icon bad">✗</span><span>Exported as an image — ATS sees a blank page</span></div>
+        <div class="ps-item"><span class="ps-icon bad">✗</span><span>Fancy designs that confuse parsers</span></div>
+        <div class="ps-item"><span class="ps-icon bad">✗</span><span>Generic templates that get ignored</span></div>
+      </div>
+      <div class="ps-col reveal">
+        <h3>We fix that.</h3>
+        <div class="ps-item"><span class="ps-icon good">✓</span><span>Real text PDF — selectable, searchable, ATS-readable</span></div>
+        <div class="ps-item"><span class="ps-icon good">✓</span><span>Clean structured templates designed for parsing</span></div>
+        <div class="ps-item"><span class="ps-icon good">✓</span><span>Live editor — see changes instantly</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FEATURES ═══════ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-label reveal">FEATURES</div>
+    <h2 class="section-heading reveal">Everything your resume needs.</h2>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <span class="feature-icon">⚡</span>
+        <h4>Real-Time Live Editor</h4>
+        <p>Edit every field and watch your resume update instantly. No lag. No refresh.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🎯</span>
+        <h4>ATS-Friendly Export</h4>
+        <p>jsPDF writes real text into your PDF — not a screenshot. Parseable by every major ATS.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">📄</span>
+        <h4>Jupiter Template</h4>
+        <p>A clean, structured, professional template built for readability and ATS compatibility.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🔤</span>
+        <h4>Smart Typography</h4>
+        <p>Consistent font hierarchy, spacing, and sizing baked in. Looks professional by default.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">📦</span>
+        <h4>Zero Setup</h4>
+        <p>No account. No install. Open in browser and start building. Your data never leaves your device.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">📥</span>
+        <h4>One-Click Download</h4>
+        <p>Download your resume as a real PDF in seconds. Named automatically: YourName-Resume.pdf</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ HOW IT WORKS ═══════ -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-label reveal">PROCESS</div>
+    <h2 class="section-heading reveal">Resume ready in 3 steps.</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h4>Fill In Your Details</h4>
+        <p>Use the live editor to add your experience, skills, and education. Every field updates the preview in real time.</p>
+      </div>
+      <div class="step-arrow reveal">&rarr;</div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h4>See It Come to Life</h4>
+        <p>Watch the Jupiter template render your resume exactly as it will appear in the final PDF.</p>
+      </div>
+      <div class="step-arrow reveal">&rarr;</div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h4>Download &amp; Apply</h4>
+        <p>Hit Download PDF. Get a real text-based, ATS-ready PDF. Start applying immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TEMPLATE SHOWCASE ═══════ -->
+<section class="showcase" id="templates">
+  <div class="container">
+    <div class="section-label reveal">TEMPLATE</div>
+    <h2 class="section-heading reveal">Meet Jupiter.</h2>
+    <div class="showcase-grid">
+      <div class="showcase-mockup reveal">
+        <div class="mockup-bar"></div>
+        <div class="mockup-name">Sarah Mitchell</div>
+        <div class="mockup-title">Full Stack Developer</div>
+        <div class="mockup-contact">sarah@dev.io &nbsp;|&nbsp; +44 7700 &nbsp;|&nbsp; London, UK</div>
+        <div class="mockup-section-label">Professional Summary</div>
+        <div class="mockup-line w90"></div>
+        <div class="mockup-line w80"></div>
+        <div class="mockup-section-label">Work Experience</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:12px;font-weight:600;color:#fff">Senior Engineer</span>
+          <span style="font-size:10px;color:#7a7a90">2021 - Present</span>
+        </div>
+        <div style="font-size:10px;color:#6c63ff;margin-bottom:6px">Stripe</div>
+        <div class="mockup-line w90"></div>
+        <div class="mockup-line w70"></div>
+        <div class="mockup-section-label">Skills</div>
+        <div class="mockup-pills">
+          <span class="mockup-pill">React</span>
+          <span class="mockup-pill">Node.js</span>
+          <span class="mockup-pill">PostgreSQL</span>
+          <span class="mockup-pill">AWS</span>
+        </div>
+      </div>
+      <div class="showcase-info reveal">
+        <p class="sub" style="margin-bottom:8px">Designed for humans. Built for machines.</p>
+        <ul class="showcase-bullets">
+          <li>Two-column section layout for easy scanning</li>
+          <li>Color-coded section dividers</li>
+          <li>ATS-structured content hierarchy</li>
+          <li>Print + PDF optimized spacing</li>
+        </ul>
+        <a href="/" class="btn-primary" style="margin-top:28px;display:inline-flex">Use This Template &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FAQ ═══════ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-label reveal">FAQ</div>
+    <h2 class="section-heading reveal">Quick answers.</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q">Is CVDesignHub free to use? <span class="faq-chevron">&#9662;</span></button>
+        <div class="faq-a"><p>Yes — completely free. No account required, no hidden fees.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Will my resume pass ATS systems? <span class="faq-chevron">&#9662;</span></button>
+        <div class="faq-a"><p>Yes. We export real text using jsPDF — not an image. ATS systems can read every word.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Does my data get stored anywhere? <span class="faq-chevron">&#9662;</span></button>
+        <div class="faq-a"><p>No. Everything stays in your browser. We don't store, collect, or send your resume data anywhere.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Can I edit my resume after downloading? <span class="faq-chevron">&#9662;</span></button>
+        <div class="faq-a"><p>Yes — come back to the app, your last session auto-fills (if localStorage is available). Re-download anytime.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">What file format does it export? <span class="faq-chevron">&#9662;</span></button>
+        <div class="faq-a"><p>Standard .pdf with embedded text. Opens in any PDF reader. Sendable to any employer.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FINAL CTA ═══════ -->
+<section class="final-cta">
+  <div class="container reveal">
+    <h2>Your next job starts with the right resume.</h2>
+    <p class="sub">Build it in minutes. Download it now. No signup required.</p>
+    <a href="/" class="btn-primary" style="font-size:17px;padding:16px 36px">Build My Resume — It's Free &rarr;</a>
+    <p class="tagline">A Crowcent Product</p>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand"><strong>CVDesignHub</strong> &nbsp;&middot;&nbsp; &copy; 2025 Crowcent. All rights reserved.</div>
+    <div class="footer-center">A Crowcent Product</div>
+  </div>
+</footer>
+
+<!-- ═══════ JAVASCRIPT ═══════ -->
+<script>
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// Mobile menu
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+hamburgerBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+function closeMobile() { mobileMenu.classList.remove('open'); }
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ const MainLayout = ({ children }) => {
                     <div className="flex items-center">
                         <img
                             src="/logo.png"
-                            alt="ATS Resume Builder - a product by crowcent"
+                            alt="CVDesignHub"
                             className="h-12 object-contain"
                         />
                     </div>
