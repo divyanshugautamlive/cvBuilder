@@ -16,18 +16,15 @@ const FormWizard = () => {
     useAutoSave();
 
     const steps = [
-        { id: 1, title: 'Personal Info', component: PersonalInfoStep },
-        { id: 2, title: 'Summary', component: SummaryStep },
-        { id: 3, title: 'Experience', component: ExperienceStep },
-        { id: 4, title: 'Education', component: EducationStep },
-        { id: 5, title: 'Skills', component: SkillsStep }
+        { id: 1, title: 'Summary', component: SummaryStep },
+        { id: 2, title: 'Experience', component: ExperienceStep },
+        { id: 3, title: 'Skills', component: SkillsStep }
     ];
 
     const validateStep = (step) => {
-        const { personalInfo, experience } = resumeData;
+        const { experience } = resumeData;
         switch (step) {
-            case 1: return personalInfo.fullName && personalInfo.email;
-            case 3: return experience.length > 0;
+            case 2: return experience.length > 0;
             default: return true;
         }
     };

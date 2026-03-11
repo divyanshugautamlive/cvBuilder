@@ -53,13 +53,13 @@ const JobMatcher = () => {
     return (
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <Search size={18} /> Job Matcher
+                <Search size={18} /> Keyword Matcher
             </h3>
 
             <textarea
                 value={jobDesc}
                 onChange={(e) => setJobDesc(e.target.value)}
-                placeholder="Paste the job description here to analyze match..."
+                placeholder="Paste the job description here to find keyword matches..."
                 className="w-full p-2 border border-gray-300 rounded mb-4 text-sm h-32"
             />
 
@@ -67,7 +67,7 @@ const JobMatcher = () => {
                 onClick={analyzeJob}
                 className="w-full bg-indigo-600 text-white py-2 rounded font-medium hover:bg-indigo-700 transition"
             >
-                Analyze Match
+                Analyze Keywords
             </button>
 
             {matches && (
