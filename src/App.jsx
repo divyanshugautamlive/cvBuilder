@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainLayout from './components/layout/MainLayout';
 import FormWizard from './components/features/form/FormWizard';
 import TemplateRenderer from './components/features/preview/TemplateRenderer';
@@ -10,7 +10,10 @@ import JobMatcher from './components/features/analysis/JobMatcher';
 import ExportButtons from './components/features/export/ExportButtons';
 import FileUploader from './components/features/parser/FileUploader';
 import CoverLetterBuilder from './components/features/coverletter/CoverLetterBuilder';
+import useResumeStore from './store/useResumeStore';
 import { Eye, Edit, FileText, Mail } from 'lucide-react';
+
+const VALID_TEMPLATES = ['classic', 'minimalist', 'modern', 'executive', 'tech', 'entrylevel', 'jupiter', 'mars', 'blank'];
 
 const App = () => {
   // Mobile Tab State
@@ -20,6 +23,17 @@ const App = () => {
 
   // Edit Mode State
   const [editMode, setEditMode] = useState(false);
+
+  const { setTemplate } = useResumeStore();
+
+  // Read ?template= from URL on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tpl = params.get('template');
+    if (tpl && VALID_TEMPLATES.includes(tpl)) {
+      setTemplate(tpl);
+    }
+  }, []);
 
   return (
     <MainLayout>
