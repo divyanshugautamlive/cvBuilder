@@ -5,6 +5,7 @@ import SummaryStep from './SummaryStep';
 import ExperienceStep from './ExperienceStep';
 import EducationStep from './EducationStep';
 import SkillsStep from './SkillsStep';
+import JobMatcher from '../analysis/JobMatcher';
 import useResumeStore from '../../../store/useResumeStore';
 import useAutoSave from '../../../hooks/useAutoSave';
 
@@ -16,15 +17,18 @@ const FormWizard = () => {
     useAutoSave();
 
     const steps = [
-        { id: 1, title: 'Summary', component: SummaryStep },
-        { id: 2, title: 'Experience', component: ExperienceStep },
-        { id: 3, title: 'Skills', component: SkillsStep }
+        { id: 1, title: 'Personal Info', component: PersonalInfoStep },
+        { id: 2, title: 'Summary', component: SummaryStep },
+        { id: 3, title: 'Experience', component: ExperienceStep },
+        { id: 4, title: 'Education', component: EducationStep },
+        { id: 5, title: 'Skills', component: SkillsStep }
     ];
 
     const validateStep = (step) => {
-        const { experience } = resumeData;
+        const { personalInfo, experience } = resumeData;
         switch (step) {
-            case 2: return experience.length > 0;
+            case 1: return personalInfo.fullName && personalInfo.email;
+            case 3: return experience.length > 0;
             default: return true;
         }
     };
@@ -73,8 +77,15 @@ const FormWizard = () => {
             </div>
 
             {/* Step Content */}
-            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar pb-8">
                 <CurrentComponent />
+
+                {/* Keyword Matcher (Hidden on Step 1 and 4) */}
+                {currentStep !== 1 && currentStep !== 4 && (
+                    <div className="mt-12 pt-8 border-t border-gray-100">
+                        <JobMatcher />
+                    </div>
+                )}
             </div>
 
             {/* Navigation Buttons */}

@@ -6,7 +6,6 @@ import TemplateSettings from './components/features/preview/TemplateSettings';
 import SectionReorder from './components/features/preview/SectionReorder';
 import TemplateSwitcher from './components/features/preview/TemplateSwitcher';
 import ATSScorer from './components/features/analysis/ATSScorer';
-import JobMatcher from './components/features/analysis/JobMatcher';
 import ExportButtons from './components/features/export/ExportButtons';
 import FileUploader from './components/features/parser/FileUploader';
 import CoverLetterBuilder from './components/features/coverletter/CoverLetterBuilder';
@@ -80,9 +79,6 @@ const App = () => {
               <div className="max-w-3xl mx-auto space-y-8">
                 <FileUploader />
                 <FormWizard />
-                <div className="mt-12 pt-8 border-t border-gray-100">
-                  <JobMatcher />
-                </div>
               </div>
             </div>
           </div>
