@@ -47,10 +47,11 @@ const TemplateSwitcher = () => {
                     <button
                         key={t.id}
                         onClick={() => setTemplate(t.id)}
-                        className={`p-3 rounded-lg border text-left transition-all relative overflow-hidden ${resumeData.selectedTemplate === t.id
+                        className={`template-selector-card p-3 rounded-lg border text-left relative overflow-hidden ${resumeData.selectedTemplate === t.id
                             ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
-                            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                            : 'border-gray-200'
                             }`}
+                        style={{ cursor: 'pointer', transition: 'transform 0.25s ease, box-shadow 0.25s ease' }}
                     >
                         {/* Premium badge */}
                         {t.premium && (
