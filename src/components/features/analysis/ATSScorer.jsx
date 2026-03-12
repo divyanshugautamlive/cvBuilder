@@ -54,56 +54,52 @@ const ATSScorer = () => {
     }, [resumeData]);
 
     const getBarColor = (s) => {
-        if (s >= 90) return '#10b981';
-        if (s >= 70) return '#f59e0b';
-        return '#ef4444';
+        if (s >= 90) return 'linear-gradient(90deg, #00d4aa, #6c63ff)'; // Cyber Teal to Electric Violet
+        if (s >= 70) return '#f59e0b'; // Amber
+        return '#ff6b6b'; // Coral
     };
 
     const getTextColor = (s) => {
-        if (s >= 90) return '#059669';
+        if (s >= 90) return '#00d4aa';
         if (s >= 70) return '#d97706';
-        return '#dc2626';
+        return '#ff6b6b';
     };
 
     return (
-        <div style={{
-            background: '#ffffff',
-            borderRadius: '10px',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-            border: '1px solid #e5e7eb',
-            padding: '12px 18px',
-            marginBottom: '12px',
-            position: 'relative',
-        }}>
+        <div className="bg-white dark:bg-[#12121a] rounded-[10px] shadow-[0_1px_4px_rgba(0,0,0,0.08)] border border-gray-200 dark:border-[#6c63ff]/20 px-[18px] py-[12px] mb-[12px] relative transition-colors">
             {/* Banner row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div className="flex items-center gap-[14px]">
                 {/* Score label + value */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
-                    <span style={{ fontSize: '13px', fontWeight: '700', color: '#374151' }}>ATS</span>
-                    <span style={{
-                        fontSize: '15px', fontWeight: '800', color: getTextColor(score),
-                        background: '#f3f4f6', borderRadius: '6px', padding: '2px 8px',
-                    }}>
+                <div className="flex items-center gap-[8px] flex-shrink-0">
+                    <span className="text-[13px] font-bold text-gray-700 dark:text-gray-300 tracking-wide">ATS</span>
+                    <span 
+                        className="text-[15px] font-extrabold bg-gray-100 dark:bg-gray-800 rounded-[6px] px-[8px] py-[2px] transition-colors"
+                        style={{ color: getTextColor(score) }}
+                    >
                         {score}/100
                     </span>
                 </div>
 
                 {/* Progress bar */}
-                <div style={{ flex: 1, height: '6px', background: '#e5e7eb', borderRadius: '3px', overflow: 'hidden' }}>
+                <div className="flex-1 h-[6px] bg-gray-200 dark:bg-[#1a1a2e] rounded-[3px] overflow-hidden">
                     <div style={{
-                        width: `${score}%`, height: '100%', borderRadius: '3px',
-                        background: getBarColor(score), transition: 'width 0.8s ease',
+                        width: `${score}%`, 
+                        height: '100%', 
+                        borderRadius: '3px',
+                        background: getBarColor(score), 
+                        transition: 'width 0.8s ease',
+                        boxShadow: score >= 90 ? '0 0 10px rgba(0, 212, 170, 0.4)' : 'none'
                     }} />
                 </div>
 
                 {/* Check badges */}
-                <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                <div className="flex gap-[6px] flex-shrink-0">
                     {checks.map((item, i) => (
-                        <span key={i} title={item.msg} style={{ cursor: 'help' }}>
+                        <span key={i} title={item.msg} className="cursor-help">
                             {item.passed ? (
-                                <CheckCircle size={15} color="#10b981" />
+                                <CheckCircle size={15} className="text-emerald-500 dark:text-[#00d4aa]" />
                             ) : (
-                                <AlertTriangle size={15} color="#ef4444" />
+                                <AlertTriangle size={15} className="text-red-500 dark:text-[#ff6b6b]" />
                             )}
                         </span>
                     ))}
@@ -111,30 +107,16 @@ const ATSScorer = () => {
 
                 {/* Lightbulb tip icon */}
                 <div
-                    style={{ position: 'relative', flexShrink: 0, cursor: 'pointer' }}
+                    className="relative flex-shrink-0 cursor-pointer"
                     onMouseEnter={() => setShowTip(true)}
                     onMouseLeave={() => setShowTip(false)}
                 >
-                    <Lightbulb size={18} color="#f59e0b" />
+                    <Lightbulb size={18} className="text-amber-500" />
 
                     {/* Tooltip */}
                     {showTip && (
-                        <div style={{
-                            position: 'absolute',
-                            right: 0,
-                            top: '28px',
-                            width: '260px',
-                            background: '#1e293b',
-                            color: '#f8fafc',
-                            fontSize: '12px',
-                            lineHeight: '1.5',
-                            padding: '10px 14px',
-                            borderRadius: '8px',
-                            boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                            zIndex: 50,
-                            pointerEvents: 'none',
-                        }}>
-                            <div style={{ fontWeight: '700', marginBottom: '4px', color: '#fbbf24', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <div className="absolute right-0 top-[28px] w-[260px] bg-slate-800 dark:bg-[#0a0a0f] text-slate-50 dark:text-[#c9c9d9] text-[12px] leading-relaxed px-[14px] py-[10px] rounded-[8px] shadow-[0_8px_24px_rgba(0,0,0,0.2)] dark:border dark:border-[#6c63ff]/30 z-50 pointer-events-none transition-colors">
+                            <div className="font-bold mb-[4px] text-amber-400 text-[11px] uppercase tracking-wider">
                                 💡 ATS Tip
                             </div>
                             {ATS_TIPS[tipIndex]}
