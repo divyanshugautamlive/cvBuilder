@@ -72,7 +72,7 @@ const App = () => {
         <>
           {/* LEFT PANEL: EDITOR */}
           <div className={`
-            flex-1 flex flex-col h-full overflow-hidden bg-white border-r border-gray-200 pt-0 md:pt-12
+            flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#12121a] border-r border-gray-200 dark:border-[#6c63ff]/20 pt-0 md:pt-12 transition-colors
             ${mobileTab === 'preview' ? 'hidden md:flex' : 'flex'}
           `}>
             <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
@@ -85,13 +85,13 @@ const App = () => {
 
           {/* RIGHT PANEL: PREVIEW */}
           <div className={`
-            flex-1 flex flex-col h-full bg-gray-100 pt-0 md:pt-12
+            flex-1 flex flex-col h-full bg-gray-100 dark:bg-[#0a0a0f] pt-0 md:pt-12 transition-colors
             ${mobileTab === 'editor' ? 'hidden md:flex' : 'flex'}
           `}>
             {/* Preview Toolbar */}
-            <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm z-10">
+            <div className="h-16 bg-white dark:bg-[#12121a] border-b border-gray-200 dark:border-[#6c63ff]/20 flex items-center justify-between px-6 shadow-sm z-10 transition-colors">
               <div className="flex items-center gap-3">
-                <span className="font-semibold text-gray-500 text-sm uppercase tracking-wide">Live Preview</span>
+                <span className="font-semibold text-gray-500 dark:text-[#a0a0b8] text-sm uppercase tracking-wide">Live Preview</span>
                 <button
                   onClick={() => setEditMode(!editMode)}
                   className={`edit-mode-toggle ${editMode ? 'active' : ''}`}
@@ -123,24 +123,24 @@ const App = () => {
       )}
 
       {/* MOBILE TABS */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex z-50">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#12121a] border-t border-gray-200 dark:border-[#6c63ff]/20 flex z-50 transition-colors">
         <button
           onClick={() => { setActiveView('resume'); setMobileTab('editor'); }}
-          className={`flex-1 p-4 flex flex-col items-center gap-1 text-xs font-medium ${activeView === 'resume' && mobileTab === 'editor' ? 'text-blue-600' : 'text-gray-500'
+          className={`flex-1 p-4 flex flex-col items-center gap-1 text-xs font-medium ${activeView === 'resume' && mobileTab === 'editor' ? 'text-blue-600 dark:text-[#6c63ff]' : 'text-gray-500 dark:text-[#a0a0b8]'
             }`}
         >
           <Edit size={20} /> Editor
         </button>
         <button
           onClick={() => { setActiveView('resume'); setMobileTab('preview'); }}
-          className={`flex-1 p-4 flex flex-col items-center gap-1 text-xs font-medium ${activeView === 'resume' && mobileTab === 'preview' ? 'text-blue-600' : 'text-gray-500'
+          className={`flex-1 p-4 flex flex-col items-center gap-1 text-xs font-medium ${activeView === 'resume' && mobileTab === 'preview' ? 'text-blue-600 dark:text-[#6c63ff]' : 'text-gray-500 dark:text-[#a0a0b8]'
             }`}
         >
           <Eye size={20} /> Preview
         </button>
         <button
           onClick={() => setActiveView('cover-letter')}
-          className={`flex-1 p-4 flex flex-col items-center gap-1 text-xs font-medium ${activeView === 'cover-letter' ? 'text-blue-600' : 'text-gray-500'
+          className={`flex-1 p-4 flex flex-col items-center gap-1 text-xs font-medium ${activeView === 'cover-letter' ? 'text-blue-600 dark:text-[#6c63ff]' : 'text-gray-500 dark:text-[#a0a0b8]'
             }`}
         >
           <Mail size={20} /> Letter

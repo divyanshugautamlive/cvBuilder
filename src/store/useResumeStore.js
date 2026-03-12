@@ -20,7 +20,8 @@ const DEFAULT_RESUME_DATA = {
         accentColor: '',   // empty = use template default
         density: 'normal'  // 'compact', 'normal', 'relaxed'
     },
-    sectionOrder: ['summary', 'experience', 'education', 'skills', 'certifications']
+    sectionOrder: ['summary', 'experience', 'education', 'skills', 'certifications'],
+    theme: 'light' // 'light' or 'dark'
 };
 
 // Valid template IDs after cleanup
@@ -90,6 +91,13 @@ const useResumeStore = create((set, get) => ({
     },
 
     setResumeData: (newData) => {
+        set({ resumeData: newData });
+        storage.set('resume_data', newData);
+    },
+
+    setTheme: (theme) => {
+        const currentData = get().resumeData;
+        const newData = { ...currentData, theme };
         set({ resumeData: newData });
         storage.set('resume_data', newData);
     }
