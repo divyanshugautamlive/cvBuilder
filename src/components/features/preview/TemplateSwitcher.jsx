@@ -48,8 +48,8 @@ const TemplateSwitcher = () => {
                         key={t.id}
                         onClick={() => setTemplate(t.id)}
                         className={`template-selector-card p-3 rounded-lg border text-left relative overflow-hidden ${resumeData.selectedTemplate === t.id
-                            ? 'active border-blue-500 bg-blue-50 ring-1 ring-blue-500 dark:border-transparent dark:bg-transparent dark:ring-0'
-                            : 'border-gray-200'
+                            ? 'active border-transparent'
+                            : 'border-gray-200 bg-white dark:bg-transparent'
                             }`}
                         style={{ cursor: 'pointer', transition: 'transform 0.25s ease, box-shadow 0.25s ease' }}
                     >
