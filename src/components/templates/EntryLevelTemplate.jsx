@@ -48,9 +48,9 @@ const EntryLevelTemplate = ({ data }) => {
                                         <div className="text-sm text-gray-600 degree">{edu.degree}</div>
                                     </div>
                                     <div className="text-sm text-gray-500 font-semibold flex gap-1">
-                                        <span className="start-date">{edu.startDate}</span>
-                                        <span>-</span>
-                                        <span className="end-date">{edu.endDate}</span>
+                                        {edu.startDate && <span className="start-date">{edu.startDate}</span>}
+                                        {(edu.startDate && (edu.endDate || edu.current)) && <span>-</span>}
+                                        {(edu.endDate || edu.current) && <span className="end-date">{edu.current ? 'Present' : edu.endDate}</span>}
                                     </div>
                                 </div>
                             ))}

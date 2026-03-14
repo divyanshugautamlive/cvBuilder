@@ -116,7 +116,9 @@ const BlankTemplate = ({ data, templateSettings = {} }) => {
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <strong className="school">{edu.school}</strong>
                                     <span style={{ fontSize: '12px', color: '#718096' }}>
-                                        <span className="start-date">{edu.startDate}</span> - <span className="end-date">{edu.endDate}</span>
+                                        {edu.startDate && <span className="start-date">{edu.startDate}</span>}
+                                        {(edu.startDate && (edu.endDate || edu.current)) && <span> - </span>}
+                                        {(edu.endDate || edu.current) && <span className="end-date">{edu.current ? 'Present' : edu.endDate}</span>}
                                     </span>
                                 </div>
                                 <div className="degree" style={{ fontSize: '13px', color: '#4a5568' }}>{edu.degree}</div>

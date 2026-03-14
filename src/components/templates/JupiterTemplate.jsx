@@ -86,8 +86,8 @@ const JupiterTemplate = ({ data, templateSettings = {}, sectionOrder }) => {
                                 <h3 className="school" style={{ fontSize: '14px', fontWeight: '700', color: '#1a202c', margin: 0 }}>{edu.school}</h3>
                                 <div style={{ fontSize: '11px', color: '#718096', display: 'flex', gap: '3px' }}>
                                     {edu.startDate && <span className="start-date">{edu.startDate}</span>}
-                                    {edu.startDate && edu.endDate && <span>–</span>}
-                                    {edu.endDate && <span className="end-date">{edu.endDate}</span>}
+                                    {(edu.startDate && (edu.endDate || edu.current)) && <span>–</span>}
+                                    {(edu.endDate || edu.current) && <span className="end-date">{edu.current ? 'Present' : edu.endDate}</span>}
                                 </div>
                             </div>
                             <div className="degree" style={{ fontSize: '13px', color: '#4a5568', fontStyle: 'italic' }}>{edu.degree}</div>

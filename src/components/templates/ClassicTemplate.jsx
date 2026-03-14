@@ -84,9 +84,9 @@ const ClassicTemplate = ({ data }) => {
                                     </div>
                                 </div>
                                 <div className="font-bold flex gap-1">
-                                    <span className="start-date">{edu.startDate}</span>
-                                    <span>-</span>
-                                    <span className="end-date">{edu.endDate}</span>
+                                    {edu.startDate && <span className="start-date">{edu.startDate}</span>}
+                                    {(edu.startDate && (edu.endDate || edu.current)) && <span>-</span>}
+                                    {(edu.endDate || edu.current) && <span className="end-date">{edu.current ? 'Present' : edu.endDate}</span>}
                                 </div>
                             </div>
                         ))}

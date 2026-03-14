@@ -75,7 +75,9 @@ const MarsTemplate = ({ data, templateSettings = {}, sectionOrder }) => {
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                                 <h3 className="school" style={{ fontSize: '13px', fontWeight: '700', color: '#1a202c', margin: 0 }}>{edu.school}</h3>
                                 <span style={{ fontSize: '11px', color: '#718096', display: 'flex', gap: '3px' }}>
-                                    <span className="start-date">{edu.startDate}</span><span>-</span><span className="end-date">{edu.endDate}</span>
+                                    {edu.startDate && <span className="start-date">{edu.startDate}</span>}
+                                    {(edu.startDate && (edu.endDate || edu.current)) && <span>-</span>}
+                                    {(edu.endDate || edu.current) && <span className="end-date">{edu.current ? 'Present' : edu.endDate}</span>}
                                 </span>
                             </div>
                             <div className="degree" style={{ fontSize: '12.5px', color: '#4a5568' }}>{edu.degree}</div>

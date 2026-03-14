@@ -10,7 +10,7 @@ const EducationStep = () => {
 
     const addEducation = () => {
         updateSection('education', [
-            { id: Date.now(), school: '', degree: '', graduationDate: '', gpa: '' },
+            { id: Date.now(), school: '', degree: '', startDate: '', endDate: '', current: false, gpa: '' },
             ...education
         ]);
     };
@@ -54,11 +54,29 @@ const EducationStep = () => {
                     placeholder="e.g. BS Computer Science"
                 />
                 <FormInput
-                    label="Graduation Date"
+                    label="Start Date"
                     type="month"
-                    value={edu.graduationDate}
-                    onChange={(e) => updateEducation(edu.id, 'graduationDate', e.target.value)}
+                    value={edu.startDate || ''}
+                    onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)}
                 />
+                <div className="flex flex-col">
+                    <FormInput
+                        label="End Date (or Expected)"
+                        type="month"
+                        value={edu.endDate || ''}
+                        onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)}
+                        disabled={edu.current}
+                    />
+                    <label className="flex items-center gap-2 text-sm text-gray-600 mt-1 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={edu.current || false}
+                            onChange={(e) => updateEducation(edu.id, 'current', e.target.checked)}
+                            className="rounded text-blue-600 focus:ring-blue-500"
+                        />
+                        I currently study here
+                    </label>
+                </div>
                 <FormInput
                     label="GPA (Optional)"
                     value={edu.gpa}

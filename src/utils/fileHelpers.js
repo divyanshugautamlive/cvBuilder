@@ -208,7 +208,9 @@ export const parseResumeText = (text) => {
                 order: eduCount,
                 degree: match[0].trim(),
                 school: "University Name",
-                graduationDate: "",
+                startDate: "",
+                endDate: "",
+                current: false,
                 gpa: ""
             });
             eduCount++;

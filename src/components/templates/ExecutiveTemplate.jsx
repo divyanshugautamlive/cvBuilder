@@ -87,9 +87,9 @@ const ExecutiveTemplate = ({ data }) => {
                                     <div className="flex justify-between items-baseline font-bold text-lg">
                                         <span className="school">{edu.school}</span>
                                         <div className="flex gap-1">
-                                            <span className="start-date">{edu.startDate}</span>
-                                            <span>-</span>
-                                            <span className="end-date">{edu.endDate}</span>
+                                            {edu.startDate && <span className="start-date">{edu.startDate}</span>}
+                                            {(edu.startDate && (edu.endDate || edu.current)) && <span>-</span>}
+                                            {(edu.endDate || edu.current) && <span className="end-date">{edu.current ? 'Present' : edu.endDate}</span>}
                                         </div>
                                     </div>
                                     <div className="text-md italic text-slate-700 degree">
