@@ -38,9 +38,10 @@ const generatePDF = () => {
     doc.text("JavaScript, React, Node.js, CSS, HTML, Python", 20, 160);
 
     const buffer = doc.output('arraybuffer');
+    fs.mkdirSync("src/__tests__/fixtures", { recursive: true });
     // eslint-disable-next-line no-undef
-    fs.writeFileSync("test_resume.pdf", Buffer.from(buffer));
-    console.log("✅ test_resume.pdf created");
+    fs.writeFileSync("src/__tests__/fixtures/test_resume.pdf", Buffer.from(buffer));
+    console.log("✅ test_resume.pdf created at src/__tests__/fixtures/");
 };
 
 // 2. Generate DOCX
@@ -97,8 +98,9 @@ const generateDOCX = async () => {
     });
 
     const buffer = await Packer.toBuffer(doc);
-    fs.writeFileSync("test_resume.docx", buffer);
-    console.log("✅ test_resume.docx created");
+    fs.mkdirSync("src/__tests__/fixtures", { recursive: true });
+    fs.writeFileSync("src/__tests__/fixtures/test_resume.docx", buffer);
+    console.log("✅ test_resume.docx created at src/__tests__/fixtures/");
 };
 
 (async () => {
