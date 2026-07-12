@@ -1,0 +1,21 @@
+# Set default behavior to automatic text normalization (LF line endings)
+* text=auto eol=lf
+
+# Force specific file types to be treated as text
+*.html text
+*.css text
+*.js text
+*.jsx text
+*.json text
+*.md text
+*.config.js text
+
+# Denote binary files (so Git won't try to normalize their line endings)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+*.pdf binary
+*.docx binary
