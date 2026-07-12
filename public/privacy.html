@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — CVDesignHub</title>
+  <meta name="description" content="Privacy policy for CVDesignHub, the ATS-friendly resume and cover letter builder." />
+  <style>
+    :root {
+      --accent: #6c63ff;
+      --bg-light: #f9fafb;
+      --bg-dark: #0a0a0f;
+      --text-light: #1f2937;
+      --text-dark: #c9c9d9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: var(--bg-dark); color: var(--text-dark); }
+      .card { background: rgba(255,255,255,0.03) !important; border-color: rgba(108,99,255,0.15) !important; }
+      header { background: rgba(10,10,15,0.85) !important; border-color: rgba(108,99,255,0.1) !important; }
+      .summary-box { background: rgba(108,99,255,0.08) !important; border-color: rgba(108,99,255,0.3) !important; }
+    }
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      text-decoration: none;
+      color: inherit;
+      letter-spacing: -0.02em;
+    }
+    .brand span { color: var(--accent); }
+    .home-link {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+    }
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+    .effective-date {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .summary-box {
+      background: rgba(108,99,255,0.06);
+      border: 1px solid rgba(108,99,255,0.2);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+    }
+    .summary-box p { margin: 0; }
+    .summary-box strong { color: var(--accent); }
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 40px;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    p { margin: 0 0 16px; font-size: 15.5px; }
+    a.inline-link { color: var(--accent); }
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #9ca3af;
+      padding: 24px;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="/index.html" class="brand">CVDesignHub<span>.</span></a>
+      <a href="/index.html" class="home-link">Home</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Privacy Policy</h1>
+    <p class="effective-date">Effective date: July 13, 2026</p>
+
+    <div class="summary-box">
+      <p><strong>The short version:</strong> CVDesignHub runs entirely in your browser. There's no account, no server that stores your resume, and no database your information is uploaded to. Everything you enter or upload stays on your device unless you export it yourself.</p>
+    </div>
+
+    <h2>Information we do not collect</h2>
+    <p>We do not require sign-up or login, so we do not collect your name, email, or account credentials to use the app. We do not operate a backend server or database that stores resume content, cover letter content, or personal details you enter into the builder. We do not sell, rent, or share your data with third parties, because we never receive it in the first place.</p>
+
+    <h2>How your resume data is stored</h2>
+    <p>All information you enter — personal details, work experience, education, skills, summaries, and cover letter text — is saved locally in your own browser using standard browser storage (localStorage and IndexedDB via the app's auto-save feature). This data never leaves your device as part of normal use of the builder. It persists across sessions so your work is there when you come back, and it is removed if you clear your browser's site data or use the app's own clear/reset controls.</p>
+    <p>Because storage is local to your browser and device, your data is not automatically available on a different browser or device, and it is not backed up by us. If you clear your browsing data, uninstall your browser, or reset your device, that information is gone — we cannot recover it.</p>
+
+    <h2>Uploading and parsing existing resumes</h2>
+    <p>If you use the "upload resume" feature to import an existing PDF or DOCX file, that file is read and parsed entirely in your browser (using client-side libraries such as pdf.js and Mammoth). The file and its extracted text are not uploaded to any server operated by us. The parsed content is placed into the same local browser storage described above.</p>
+
+    <h2>AI Assist feature</h2>
+    <p>The "AI Assist" tool included in the builder currently generates suggested phrasing using built-in templates that run locally in your browser. It does not send your prompts or resume content to any external AI service. If this changes in a future version — for example, by connecting AI Assist to a live third-party AI provider — this policy will be updated in advance to reflect exactly what is sent, to whom, and why.</p>
+
+    <h2>Exporting your documents</h2>
+    <p>When you export a resume or cover letter (as PDF or DOCX), that file is generated locally in your browser and saved to your device through your browser's normal file-download mechanism. We do not receive a copy of exported files.</p>
+
+    <h2>Cookies and tracking</h2>
+    <p>CVDesignHub does not use cookies or tracking technologies to identify you or follow you across other websites. Any technical data your browser stores, such as your saved resume data or theme preference, is used solely to make the app function and is not transmitted to us.</p>
+
+    <h2>Children's privacy</h2>
+    <p>CVDesignHub is not directed at children under 13, and we do not knowingly collect personal information from children, since the app does not collect personal information at all in the ordinary course of use.</p>
+
+    <h2>Your control over your data</h2>
+    <p>Because your data lives in your browser, you are always in control of it. You can review everything you've entered directly in the app, delete it at any time using your browser's site data settings or the app's reset/clear function, and export a copy for your own records whenever you like.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If how the app handles data changes — for example, if account features, cloud sync, or third-party integrations are added in the future — this policy will be updated and the effective date above will change accordingly. We recommend checking back periodically if you use the app regularly.</p>
+
+    <h2>Contact</h2>
+    <p>If you have questions about this privacy policy or how CVDesignHub handles information, reach out at <a class="inline-link" href="mailto:rahullpprajapati@gmail.com">rahullpprajapati@gmail.com</a>.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 CVDesignHub. All rights reserved.
+  </footer>
+</body>
+</html>
