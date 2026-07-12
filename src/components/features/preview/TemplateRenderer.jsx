@@ -67,7 +67,8 @@ const TemplateRenderer = ({ editable = false }) => {
             const height = el.scrollHeight;
             // 297mm in pixels at 96 DPI is 1122.5px
             const pageHeightPx = 1122.5;
-            const pages = Math.max(1, Math.ceil(height / pageHeightPx));
+            // Subtract a 10px buffer to prevent off-by-one rounding errors on exactly 1-page resumes
+            const pages = Math.max(1, Math.ceil((height - 10) / pageHeightPx));
             setPageCount(pages);
         };
 
