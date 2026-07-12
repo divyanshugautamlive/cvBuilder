@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AlertTriangle, CheckCircle, Lightbulb } from 'lucide-react';
 import useResumeStore from '../../../store/useResumeStore';
 
@@ -12,46 +12,36 @@ const ATS_TIPS = [
 
 const ATSScorer = () => {
     const { resumeData } = useResumeStore();
-    const [score, setScore] = useState(0);
-    const [checks, setChecks] = useState([]);
     const [showTip, setShowTip] = useState(false);
-    const [tipIndex, setTipIndex] = useState(0);
+    const [tipIndex] = useState(() => Math.floor(Math.random() * ATS_TIPS.length));
 
-    useEffect(() => {
-        setTipIndex(Math.floor(Math.random() * ATS_TIPS.length));
-    }, []);
+    // Derive score and checks directly from resumeData
+    const checks = [];
+    let score = 30;
 
-    useEffect(() => {
-        let tempScore = 30;
-        const analysis = [];
+    const { personalInfo } = resumeData;
+    if (personalInfo.email && personalInfo.phone) {
+        score += 10;
+        checks.push({ passed: true, msg: "Contact info detected" });
+    } else {
+        checks.push({ passed: false, msg: "Missing email or phone" });
+    }
 
-        const { personalInfo } = resumeData;
-        if (personalInfo.email && personalInfo.phone) {
-            tempScore += 10;
-            analysis.push({ passed: true, msg: "Contact info detected" });
-        } else {
-            analysis.push({ passed: false, msg: "Missing email or phone" });
-        }
+    if (resumeData.summary && resumeData.experience.length > 0 && resumeData.education.length > 0 && resumeData.skills.length > 0) {
+        score += 15;
+        checks.push({ passed: true, msg: "All standard sections present" });
+    } else {
+        checks.push({ passed: false, msg: "Missing standard sections" });
+    }
 
-        if (resumeData.summary && resumeData.experience.length > 0 && resumeData.education.length > 0 && resumeData.skills.length > 0) {
-            tempScore += 15;
-            analysis.push({ passed: true, msg: "All standard sections present" });
-        } else {
-            analysis.push({ passed: false, msg: "Missing standard sections" });
-        }
+    if (resumeData.skills.length >= 5) {
+        score += 20;
+        checks.push({ passed: true, msg: "Good keyword density (5+ skills)" });
+    } else {
+        checks.push({ passed: false, msg: "Low keyword density (<5 skills)" });
+    }
 
-        if (resumeData.skills.length >= 5) {
-            tempScore += 20;
-            analysis.push({ passed: true, msg: "Good keyword density (5+ skills)" });
-        } else {
-            analysis.push({ passed: false, msg: "Low keyword density (<5 skills)" });
-        }
-
-        tempScore += 25; // Formatting + Font (assumed for templates)
-
-        setScore(tempScore);
-        setChecks(analysis);
-    }, [resumeData]);
+    score += 25; // Formatting + Font (assumed for templates)
 
     const getBarColor = (s) => {
         if (s >= 90) return 'linear-gradient(90deg, #00d4aa, #6c63ff)'; // Cyber Teal to Electric Violet

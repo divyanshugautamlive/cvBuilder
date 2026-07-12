@@ -32,7 +32,7 @@ const App = () => {
     if (tpl && VALID_TEMPLATES.includes(tpl)) {
       setTemplate(tpl);
     }
-  }, []);
+  }, [setTemplate]);
 
   return (
     <MainLayout>

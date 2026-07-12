@@ -44,7 +44,7 @@ const MarsTemplate = ({ data, templateSettings = {}, sectionOrder }) => {
                         const descriptionContent = isHtml
                             ? job.description
                             : (job.description
-                                ? `<ul style="margin:4px 0 0 14px;padding:0;list-style:disc">${job.description.split('\n').filter(l => l.trim()).map(l => `<li style="margin-bottom:2px;font-size:12px;line-height:1.6;color:#2d3748">${l.replace(/^[•\-]\s*/, '')}</li>`).join('')}</ul>`
+                                ? `<ul style="margin:4px 0 0 14px;padding:0;list-style:disc">${job.description.split('\n').filter(l => l.trim()).map(l => `<li style="margin-bottom:2px;font-size:12px;line-height:1.6;color:#2d3748">${l.replace(/^[•-]\s*/, '')}</li>`).join('')}</ul>`
                                 : '');
                         return (
                             <div key={index} className="job-entry" data-job={index} style={{ breakInside: 'avoid' }}>

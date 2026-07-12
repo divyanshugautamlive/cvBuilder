@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export default function RichTextToolbar({ position, targetElement, onClose }) {
     const toolbarRef = useRef(null);

@@ -52,7 +52,7 @@ const JupiterTemplate = ({ data, templateSettings = {}, sectionOrder }) => {
                         const descriptionContent = isHtml
                             ? job.description
                             : (job.description
-                                ? `<ul style="margin:6px 0 0 16px;padding:0;list-style:disc">${job.description.split('\n').filter(l => l.trim()).map(l => `<li style="margin-bottom:3px;font-size:12.5px;line-height:1.6;color:#4a5568">${l.replace(/^[•\-]\s*/, '')}</li>`).join('')}</ul>`
+                                ? `<ul style="margin:6px 0 0 16px;padding:0;list-style:disc">${job.description.split('\n').filter(l => l.trim()).map(l => `<li style="margin-bottom:3px;font-size:12.5px;line-height:1.6;color:#4a5568">${l.replace(/^[•-]\s*/, '')}</li>`).join('')}</ul>`
                                 : '');
                         return (
                             <div key={index} className="job-entry" data-job={index} style={{ breakInside: 'avoid' }}>

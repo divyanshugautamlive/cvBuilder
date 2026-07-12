@@ -59,7 +59,7 @@ export default function EditableTemplate({
         // However, if children are just re-ordered or updated by React, attributes might be lost.
         // A MutationObserver is safer for React integration without hacking refs too much.
 
-        const observer = new MutationObserver((mutations) => {
+        const observer = new MutationObserver(() => {
             makeEditable();
         });
 
@@ -75,9 +75,10 @@ export default function EditableTemplate({
                 element.removeEventListener('keyup', handleElementSelection);
             });
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [enabled, children]);
 
-    const handleElementInput = (e) => {
+    function handleElementInput(e) {
         const element = e.target;
         // We use innerText or textContent? 
         // innerText preserves newlines better as \n, textContent as raw text.
@@ -114,9 +115,9 @@ export default function EditableTemplate({
 
             updateNestedField(resumeData, field, value, onUpdateData);
         }
-    };
+    }
 
-    const handleElementSelection = (e) => {
+    function handleElementSelection(e) {
         const selection = window.getSelection();
         const selectedText = selection.toString();
 
@@ -133,7 +134,7 @@ export default function EditableTemplate({
         } else {
             setShowToolbar(false);
         }
-    };
+    }
 
     const identifyField = (element) => {
         // Smart field identification based on context and class names
@@ -247,7 +248,7 @@ export default function EditableTemplate({
             // Often skills are just a cloud of spans.
             // We need `data-skill-index` or rely on order.
             // Let's assume order.
-            const skillsContainer = skillsSection.querySelector('.skills-list') || skillsSection; // fallback
+
             // Find all skill items
             const allSkills = Array.from(skillsSection.querySelectorAll('.skill-item, li, span.skill'));
             const skillIndex = allSkills.indexOf(element.closest('.skill-item, li, span.skill') || element);

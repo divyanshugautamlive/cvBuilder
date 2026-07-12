@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BlankTemplate = ({ data, templateSettings = {} }) => {
+const BlankTemplate = ({ data }) => {
     return (
         <div
             className="tpl-blank"
@@ -81,7 +81,7 @@ const BlankTemplate = ({ data, templateSettings = {} }) => {
                             const descriptionContent = isHtml
                                 ? job.description
                                 : (job.description
-                                    ? `<ul style="margin:4px 0 0 18px;padding:0;list-style:disc"><li>${job.description.split('\n').filter(l => l.trim()).map(l => l.replace(/^[•\-]\s*/, '')).join('</li><li>')}</li></ul>`
+                                    ? `<ul style="margin:4px 0 0 18px;padding:0;list-style:disc"><li>${job.description.split('\n').filter(l => l.trim()).map(l => l.replace(/^[•-]\s*/, '')).join('</li><li>')}</li></ul>`
                                     : '');
                             return (
                                 <div key={index} className="job-entry break-inside-avoid" data-job={index} style={{ marginBottom: '12px' }}>
