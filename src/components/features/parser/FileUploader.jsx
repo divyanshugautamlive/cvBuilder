@@ -83,7 +83,7 @@ const FileUploader = () => {
             // 4. Show success message
             setIsParsingResume(false);
             setStatus('success');
-            alert(`✅ Resume parsed successfully!\n\nExtracted:\n• Name: ${parsedData.personalInfo.name || 'Not found'}\n• Email: ${parsedData.personalInfo.email || 'Not found'}\n• ${parsedData.experience.length} work experiences\n• ${parsedData.education.length} education entries\n• ${parsedData.skills.length} skills`);
+            alert(`✅ Resume parsed successfully!\n\nExtracted:\n• Name: ${parsedData.personalInfo.fullName || 'Not found'}\n• Email: ${parsedData.personalInfo.email || 'Not found'}\n• ${parsedData.experience.length} work experiences\n• ${parsedData.education.length} education entries\n• ${parsedData.skills.length} skills`);
 
             console.log("✅ Form state updated successfully");
 

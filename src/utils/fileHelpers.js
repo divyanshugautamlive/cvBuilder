@@ -104,7 +104,7 @@ export const parseResumeText = (text) => {
     // Initialize empty resume data structure
     const resumeData = {
         personalInfo: {
-            name: "",
+            fullName: "",
             email: "",
             phone: "",
             location: ""
@@ -143,16 +143,16 @@ export const parseResumeText = (text) => {
             line.length < 50
         );
         if (nameLine) {
-            resumeData.personalInfo.name = nameLine.trim();
+            resumeData.personalInfo.fullName = nameLine.trim();
             console.log("✓ Found name:", nameLine.trim());
         }
     }
 
     // 4. Extract Location/Address
-    const locationMatch = text.match(/([A-Z][a-z]+,\s*[A-Z]{2}\s*\d{5}|[A-Z][a-z]+,\s*[A-Z][a-z]+)/);
+    const locationMatch = text.match(/([A-Z][a-zA-Z\s]+,\s*[A-Z]{2}\s*\d{5}|[A-Z][a-zA-Z\s]+,\s*[A-Z]{2}|[A-Z][a-zA-Z\s]+,\s*[A-Z][a-zA-Z\s]+)/);
     if (locationMatch) {
-        resumeData.personalInfo.location = locationMatch[0];
-        console.log("✓ Found location:", locationMatch[0]);
+        resumeData.personalInfo.location = locationMatch[0].trim();
+        console.log("✓ Found location:", locationMatch[0].trim());
     }
 
     // 5. Extract Professional Summary
