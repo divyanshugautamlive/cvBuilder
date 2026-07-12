@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowLeft, ArrowRight, Check, X, Download, Sparkles } from 'lucide-react';
 import PersonalInfoStep from './PersonalInfoStep';
 import SummaryStep from './SummaryStep';
@@ -13,6 +13,7 @@ const FormWizard = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const { resumeData } = useResumeStore();
+    const wizardRef = useRef(null);
 
     useAutoSave();
 
@@ -23,6 +24,15 @@ const FormWizard = () => {
         { id: 4, title: 'Education', component: EducationStep },
         { id: 5, title: 'Skills', component: SkillsStep }
     ];
+
+    const scrollToTop = () => {
+        if (wizardRef.current) {
+            const scrollContainer = wizardRef.current.closest('.overflow-y-auto');
+            if (scrollContainer) {
+                scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    };
 
     const validateStep = (step) => {
         const { personalInfo, experience } = resumeData;
@@ -40,6 +50,7 @@ const FormWizard = () => {
         }
         if (currentStep < steps.length) {
             setCurrentStep(currentStep + 1);
+            setTimeout(scrollToTop, 50);
         }
     };
 
@@ -48,14 +59,17 @@ const FormWizard = () => {
     };
 
     const handleBack = () => {
-        if (currentStep > 1) setCurrentStep(currentStep - 1);
+        if (currentStep > 1) {
+            setCurrentStep(currentStep - 1);
+            setTimeout(scrollToTop, 50);
+        }
     };
 
     const CurrentComponent = steps.find(s => s.id === currentStep).component;
     const isLastStep = currentStep === steps.length;
 
     return (
-        <div className="flex flex-col h-full">
+        <div ref={wizardRef} className="flex flex-col h-full">
             {/* Progress Bar */}
             <div className="mb-8">
                 <div className="flex justify-between text-sm font-medium text-gray-500 mb-2">
@@ -77,7 +91,7 @@ const FormWizard = () => {
             </div>
 
             {/* Step Content */}
-            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar pb-8">
+            <div className="pr-2 pb-8">
                 <CurrentComponent />
 
                 {/* Keyword Matcher (Hidden on Step 1 and 4) */}
