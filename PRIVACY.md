@@ -5,7 +5,7 @@ Effective date: July 13, 2026
 
 ## The short version
 
-CVDesignHub is built to work entirely inside your browser. There is no account to create, no server that stores your resume, and no database that your personal information is uploaded to. Everything you type, upload, or generate stays on your device unless you explicitly export or share it yourself.
+CVDesignHub is built to work entirely inside your browser. There is no account to create, no server that stores your resume, and no database that your resume content is uploaded to. Everything you type, upload, or generate on the resume/cover letter forms stays on your device unless you explicitly export or share it yourself. Separately, we use Google Analytics to understand how the app is used (see "Analytics and tracking" below) — this tool tracks feature usage, not the content of your resume.
 
 ## Information we do not collect
 
@@ -29,9 +29,15 @@ The "AI Assist" tool included in the builder currently generates suggested phras
 
 When you export a resume or cover letter (as PDF or DOCX), that file is generated locally in your browser and saved to your device through your browser's normal file-download mechanism. We do not receive a copy of exported files.
 
-## Cookies and tracking
+## Analytics and tracking
 
-CVDesignHub does not use cookies or tracking technologies to identify you or follow you across other websites. Any technical data your browser stores (such as your saved resume data or theme preference) is used solely to make the app function and is not transmitted to us.
+CVDesignHub uses **Google Analytics (GA4)**, implemented through **Google Tag Manager**, to understand how people use the app and to improve it. This is separate from, and does not have access to, the resume or cover letter content you type into the builder.
+
+Through Google Analytics we collect standard usage and device information, such as page views and referring pages, general device, browser, and approximate location information (derived from IP address), and interaction events including: form wizard steps completed, template selections and switches, resume/cover letter exports (and file type chosen), resume file uploads and whether parsing succeeded or failed, job-match analysis and ATS score calculations (the numeric score and that the feature was used — not the resume text or job description itself), and skill additions, theme changes (dark/light mode), and which view is active in the app.
+
+Google Analytics does not receive the text of your resume, cover letter, uploaded files, or job descriptions. The events above are limited to feature usage and numeric/categorical values (e.g., "ATS score: 82", "template: Modern") rather than your personal content.
+
+**Cookies:** Google Analytics sets cookies and similar identifiers in your browser to distinguish visitors and sessions. These cookies do not contain any resume data. You can disable cookies in your browser settings or use an adblocker if you wish to opt out of tracking.
 
 ## Children's privacy
 
@@ -49,4 +55,4 @@ If how the app handles data changes — for example, if account features, cloud 
 
 If you have questions about this privacy policy or how CVDesignHub handles information, you can reach out at:
 
-**Email:** rahullpprajapati@gmail.com
+**Email:** contact@crowcent.com

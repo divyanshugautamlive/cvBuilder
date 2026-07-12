@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import useResumeStore from '../../../store/useResumeStore';
 import { FormInput, FormTextArea } from '../../core/FormInputs';
 import SortableList from '../../core/SortableList';
 import AIAssistButton from '../../ai/AIAssistButton';
+import CustomDatePicker from '../../core/CustomDatePicker';
 
 const ExperienceStep = () => {
     const { resumeData, updateSection } = useResumeStore();
     const { experience } = resumeData;
+    const [activePicker, setActivePicker] = useState(null);
 
     const addExperience = () => {
         const newExp = {
@@ -68,25 +70,39 @@ const ExperienceStep = () => {
                     onChange={(e) => updateExperience(exp.id, 'company', e.target.value)}
                     placeholder="e.g. Acme Corp"
                 />
-                <FormInput
+                <CustomDatePicker
                     label="Start Date"
-                    type="month"
                     value={exp.startDate}
-                    onChange={(e) => updateExperience(exp.id, 'startDate', e.target.value)}
+                    onChange={(val) => {
+                        updateExperience(exp.id, 'startDate', val);
+                        if (!exp.current) {
+                            setActivePicker(`end-${exp.id}`);
+                        }
+                    }}
+                    isOpen={activePicker === `start-${exp.id}`}
+                    onOpen={() => setActivePicker(`start-${exp.id}`)}
+                    onClose={() => setActivePicker(null)}
                 />
                 <div className="flex flex-col">
-                    <FormInput
+                    <CustomDatePicker
                         label="End Date"
-                        type="month"
                         value={exp.endDate}
-                        onChange={(e) => updateExperience(exp.id, 'endDate', e.target.value)}
+                        onChange={(val) => updateExperience(exp.id, 'endDate', val)}
                         disabled={exp.current}
+                        isOpen={activePicker === `end-${exp.id}`}
+                        onOpen={() => setActivePicker(`end-${exp.id}`)}
+                        onClose={() => setActivePicker(null)}
                     />
-                    <label className="flex items-center gap-2 text-sm text-gray-600 mt-1 cursor-pointer">
+                    <label className="flex items-center gap-2 text-sm text-gray-600 mt-1 cursor-pointer select-none">
                         <input
                             type="checkbox"
                             checked={exp.current}
-                            onChange={(e) => updateExperience(exp.id, 'current', e.target.checked)}
+                            onChange={(e) => {
+                                updateExperience(exp.id, 'current', e.target.checked);
+                                if (e.target.checked) {
+                                    updateExperience(exp.id, 'endDate', '');
+                                }
+                            }}
                             className="rounded text-blue-600 focus:ring-blue-500"
                         />
                         I currently work here

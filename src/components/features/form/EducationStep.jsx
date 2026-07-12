@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import useResumeStore from '../../../store/useResumeStore';
 import { FormInput } from '../../core/FormInputs';
 import SortableList from '../../core/SortableList';
+import CustomDatePicker from '../../core/CustomDatePicker';
 
 const EducationStep = () => {
     const { resumeData, updateSection } = useResumeStore();
     const { education } = resumeData;
+    const [activePicker, setActivePicker] = useState(null);
 
     const addEducation = () => {
         updateSection('education', [
@@ -53,25 +55,39 @@ const EducationStep = () => {
                     onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
                     placeholder="e.g. BS Computer Science"
                 />
-                <FormInput
+                <CustomDatePicker
                     label="Start Date"
-                    type="month"
                     value={edu.startDate || ''}
-                    onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)}
+                    onChange={(val) => {
+                        updateEducation(edu.id, 'startDate', val);
+                        if (!edu.current) {
+                            setActivePicker(`end-${edu.id}`);
+                        }
+                    }}
+                    isOpen={activePicker === `start-${edu.id}`}
+                    onOpen={() => setActivePicker(`start-${edu.id}`)}
+                    onClose={() => setActivePicker(null)}
                 />
                 <div className="flex flex-col">
-                    <FormInput
+                    <CustomDatePicker
                         label="End Date (or Expected)"
-                        type="month"
                         value={edu.endDate || ''}
-                        onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)}
+                        onChange={(val) => updateEducation(edu.id, 'endDate', val)}
                         disabled={edu.current}
+                        isOpen={activePicker === `end-${edu.id}`}
+                        onOpen={() => setActivePicker(`end-${edu.id}`)}
+                        onClose={() => setActivePicker(null)}
                     />
-                    <label className="flex items-center gap-2 text-sm text-gray-600 mt-1 cursor-pointer">
+                    <label className="flex items-center gap-2 text-sm text-gray-600 mt-1 cursor-pointer select-none">
                         <input
                             type="checkbox"
                             checked={edu.current || false}
-                            onChange={(e) => updateEducation(edu.id, 'current', e.target.checked)}
+                            onChange={(e) => {
+                                updateEducation(edu.id, 'current', e.target.checked);
+                                if (e.target.checked) {
+                                    updateEducation(edu.id, 'endDate', '');
+                                }
+                            }}
                             className="rounded text-blue-600 focus:ring-blue-500"
                         />
                         I currently study here
