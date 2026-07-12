@@ -88,7 +88,7 @@ const BlankTemplate = ({ data }) => {
                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                         <strong className="job-title">{job.title}</strong>
                                         <span style={{ fontSize: '12px', color: '#718096' }}>
-                                            <span className="start-date">{job.startDate}</span> - <span className="end-date">{job.endDate || 'Present'}</span>
+                                            <span className="start-date">{job.startDate}</span> - <span className="end-date">{job.current ? 'Present' : job.endDate}</span>
                                         </span>
                                     </div>
                                     <div style={{ fontSize: '13px', color: '#4a5568' }}>

@@ -1,16 +1,23 @@
 import React from 'react';
 
 const EntryLevelTemplate = ({ data }) => {
-    const { personalInfo = {}, summary, experience = [], education = [], skills = [] } = data;
+    const { personalInfo = {}, summary, experience = [], education = [], skills = [], certifications = [] } = data;
 
     return (
         <div className="p-8 font-sans text-gray-700" style={{ fontFamily: 'Verdana, sans-serif', maxWidth: '100%', wordWrap: 'break-word' }}>
 
             {/* Centered Header */}
             <header className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2 uppercase tracking-wide name">
+                <h1 className="text-3xl font-bold text-gray-900 mb-1 uppercase tracking-wide name">
                     {personalInfo.fullName || 'Your Name'}
                 </h1>
+                
+                {personalInfo.jobTitle && (
+                    <p className="text-sm font-semibold uppercase tracking-wider text-teal-600 mb-3 job-title-header">
+                        {personalInfo.jobTitle}
+                    </p>
+                )}
+
                 <div className="text-sm text-gray-500 flex justify-center flex-wrap gap-4">
                     {personalInfo.email && (
                         <span className="email">{personalInfo.email}</span>
@@ -20,6 +27,9 @@ const EntryLevelTemplate = ({ data }) => {
                     )}
                     {personalInfo.location && (
                         <span className="location">{personalInfo.location}</span>
+                    )}
+                    {personalInfo.linkedin && (
+                        <span className="linkedin">{personalInfo.linkedin}</span>
                     )}
                 </div>
             </header>
@@ -89,7 +99,7 @@ const EntryLevelTemplate = ({ data }) => {
                                             <div className="text-xs text-gray-500 flex gap-1">
                                                 <span className="start-date">{job.startDate}</span>
                                                 <span>-</span>
-                                                <span className="end-date">{job.endDate || 'Present'}</span>
+                                                <span className="end-date">{job.current ? 'Present' : job.endDate}</span>
                                             </div>
                                         </div>
                                         <div className="text-sm font-semibold text-teal-600 mb-2 company">
@@ -99,6 +109,20 @@ const EntryLevelTemplate = ({ data }) => {
                                     </div>
                                 );
                             })}
+                        </div>
+                    </section>
+                )}
+
+                {/* Certifications */}
+                {certifications && certifications.length > 0 && (
+                    <section className="certifications" data-section="certifications">
+                        <h2 className="text-lg font-bold text-teal-600 uppercase mb-3 border-b border-gray-200 pb-1">Certifications</h2>
+                        <div className="flex flex-wrap gap-3 certifications-list">
+                            {certifications.map((cert, i) => (
+                                <span key={i} className="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-sm font-semibold border border-teal-100 cert-item">
+                                    <span className="cert-name">{cert}</span>
+                                </span>
+                            ))}
                         </div>
                     </section>
                 )}

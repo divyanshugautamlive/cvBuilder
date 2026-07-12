@@ -76,7 +76,7 @@ const TechTemplate = ({ data }) => {
                                                     <div className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-300 flex gap-1">
                                                         <span className="start-date">{job.startDate}</span>
                                                         <span>TO</span>
-                                                        <span className="end-date">{job.endDate || 'Ongoing'}</span>
+                                                        <span className="end-date">{job.current ? 'Ongoing' : job.endDate}</span>
                                                     </div>
                                                 </div>
                                                 <div className="text-sm font-semibold text-blue-800 mb-2 flex gap-1">

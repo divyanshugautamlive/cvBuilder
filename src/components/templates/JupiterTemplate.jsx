@@ -61,7 +61,7 @@ const JupiterTemplate = ({ data, templateSettings = {}, sectionOrder }) => {
                                     <div style={{ fontSize: '11px', fontWeight: '600', color: '#718096', whiteSpace: 'nowrap', display: 'flex', gap: '3px' }}>
                                         {job.startDate && <span className="start-date">{job.startDate}</span>}
                                         {job.startDate && <span>–</span>}
-                                        {(job.startDate || job.endDate) && <span className="end-date">{job.endDate || 'Present'}</span>}
+                                        {(job.startDate || job.endDate || job.current) && <span className="end-date">{job.current ? 'Present' : job.endDate}</span>}
                                     </div>
                                 </div>
                                 <div style={{ fontSize: '13px', fontWeight: '600', color: accent, marginBottom: '4px', display: 'flex', gap: '6px' }}>

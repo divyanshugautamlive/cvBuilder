@@ -4,6 +4,7 @@ import { storage } from '../utils/storage';
 const DEFAULT_RESUME_DATA = {
     personalInfo: {
         fullName: "",
+        jobTitle: "",
         email: "",
         phone: "",
         location: "",
@@ -16,6 +17,8 @@ const DEFAULT_RESUME_DATA = {
     certifications: [],
     selectedTemplate: "executive", // Default to executive template
     atsScore: 0,
+    jobKeywords: { score: null, matched: [], missing: [] },
+    parserConfidence: {}, // Map of field key -> boolean (false = low confidence parsed value)
     templateSettings: {
         accentColor: '',   // empty = use template default
         density: 'normal'  // 'compact', 'normal', 'relaxed'
@@ -44,13 +47,28 @@ const useResumeStore = create((set, get) => ({
 
     // Actions
     updatePersonalInfo: (info) => {
-        const newData = { ...get().resumeData, personalInfo: { ...get().resumeData.personalInfo, ...info } };
+        const currentConfidence = get().resumeData.parserConfidence || {};
+        const newConfidence = { ...currentConfidence };
+        Object.keys(info).forEach(key => {
+            newConfidence[key] = true;
+        });
+        const newData = {
+            ...get().resumeData,
+            personalInfo: { ...get().resumeData.personalInfo, ...info },
+            parserConfidence: newConfidence
+        };
         set({ resumeData: newData });
         storage.set('resume_data', newData);
     },
 
     updateSection: (section, value) => {
-        const newData = { ...get().resumeData, [section]: value };
+        const currentConfidence = get().resumeData.parserConfidence || {};
+        const newConfidence = { ...currentConfidence, [section]: true };
+        const newData = {
+            ...get().resumeData,
+            [section]: value,
+            parserConfidence: newConfidence
+        };
         set({ resumeData: newData });
         storage.set('resume_data', newData);
     },
@@ -88,6 +106,15 @@ const useResumeStore = create((set, get) => ({
     // ATS Scoring Helper
     calculateScore: () => {
         return get().resumeData.atsScore;
+    },
+
+    updateJobMatchScore: (score, matched, missing) => {
+        const newData = {
+            ...get().resumeData,
+            jobKeywords: { score, matched, missing }
+        };
+        set({ resumeData: newData });
+        storage.set('resume_data', newData);
     },
 
     setResumeData: (newData) => {

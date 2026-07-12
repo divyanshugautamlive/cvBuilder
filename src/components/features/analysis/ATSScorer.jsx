@@ -17,31 +17,45 @@ const ATSScorer = () => {
 
     // Derive score and checks directly from resumeData
     const checks = [];
-    let score = 30;
+    const { personalInfo, jobKeywords = { score: null, matched: [], missing: [] } } = resumeData;
+    
+    let completenessScore = 30; // Base score for starting a resume
 
-    const { personalInfo } = resumeData;
     if (personalInfo.email && personalInfo.phone) {
-        score += 10;
+        completenessScore += 15;
         checks.push({ passed: true, msg: "Contact info detected" });
     } else {
         checks.push({ passed: false, msg: "Missing email or phone" });
     }
 
     if (resumeData.summary && resumeData.experience.length > 0 && resumeData.education.length > 0 && resumeData.skills.length > 0) {
-        score += 15;
+        completenessScore += 25;
         checks.push({ passed: true, msg: "All standard sections present" });
     } else {
         checks.push({ passed: false, msg: "Missing standard sections" });
     }
 
     if (resumeData.skills.length >= 5) {
-        score += 20;
-        checks.push({ passed: true, msg: "Good keyword density (5+ skills)" });
+        completenessScore += 15;
+        checks.push({ passed: true, msg: "Good skill density (5+ skills)" });
     } else {
-        checks.push({ passed: false, msg: "Low keyword density (<5 skills)" });
+        checks.push({ passed: false, msg: "Low skill density (<5 skills)" });
     }
 
-    score += 25; // Formatting + Font (assumed for templates)
+    // Award layout safety points for post-cleanup templates (all are single-column safe)
+    completenessScore += 15;
+    checks.push({ passed: true, msg: "ATS-optimal single-column layout" });
+
+    let score = completenessScore;
+
+    // Blend in the keyword matching score if a job description has been analyzed
+    if (jobKeywords.score !== null) {
+        score = Math.round(completenessScore * 0.6 + jobKeywords.score * 0.4);
+        checks.push({ 
+            passed: jobKeywords.score >= 60, 
+            msg: `Job match: ${jobKeywords.score}% (${jobKeywords.matched.length} matched, ${jobKeywords.missing.length} missing)` 
+        });
+    }
 
     const getBarColor = (s) => {
         if (s >= 90) return 'linear-gradient(90deg, #00d4aa, #6c63ff)'; // Cyber Teal to Electric Violet

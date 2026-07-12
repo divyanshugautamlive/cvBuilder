@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ModernTemplate = ({ data }) => {
-    const { personalInfo = {}, summary, experience = [], education = [], skills = [] } = data;
+    const { personalInfo = {}, summary, experience = [], education = [], skills = [], certifications = [] } = data;
 
     return (
         <div className="p-8 font-sans text-gray-800" style={{ fontFamily: 'Arial, sans-serif', maxWidth: '100%', wordWrap: 'break-word' }}>
@@ -9,9 +9,16 @@ const ModernTemplate = ({ data }) => {
             {/* Header */}
             <header className="border-b-2 border-gray-800 pb-4 mb-6">
                 {/* Name */}
-                <h1 className="text-3xl font-bold uppercase tracking-wide text-gray-900 mb-2 name">
+                <h1 className="text-3xl font-bold uppercase tracking-wide text-gray-900 mb-1 name">
                     {personalInfo.fullName || 'Your Name'}
                 </h1>
+                
+                {/* Job Title */}
+                {personalInfo.jobTitle && (
+                    <p className="text-sm font-semibold uppercase tracking-wider text-gray-600 mb-2 job-title-header">
+                        {personalInfo.jobTitle}
+                    </p>
+                )}
 
                 {/* Contact Info */}
                 <div className="text-sm flex flex-wrap gap-3 text-gray-600">
@@ -28,6 +35,13 @@ const ModernTemplate = ({ data }) => {
                         <>
                             <span>•</span>
                             <span className="location">{personalInfo.location}</span>
+                        </>
+                    )}
+
+                    {personalInfo.linkedin && (
+                        <>
+                            <span>•</span>
+                            <span className="linkedin">{personalInfo.linkedin}</span>
                         </>
                     )}
                 </div>
@@ -63,7 +77,7 @@ const ModernTemplate = ({ data }) => {
                                         <div className="text-sm text-gray-600 flex gap-1">
                                             <span className="start-date">{job.startDate}</span>
                                             <span>-</span>
-                                            <span className="end-date">{job.endDate || 'Present'}</span>
+                                            <span className="end-date">{job.current ? 'Present' : job.endDate}</span>
                                         </div>
                                     </div>
                                     <div className="text-sm italic text-gray-700 mb-2 flex gap-1">
@@ -115,6 +129,21 @@ const ModernTemplate = ({ data }) => {
                             <span key={i} className="inline-block mr-1 skill-item">
                                 <span className="skill-name">{skill.name}</span>
                                 {i < skills.length - 1 ? ' • ' : ''}
+                            </span>
+                        ))}
+                    </p>
+                </section>
+            )}
+
+            {/* Certifications */}
+            {certifications && certifications.length > 0 && (
+                <section className="mb-6 break-inside-avoid certifications" data-section="certifications">
+                    <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-3 pb-1">Certifications</h2>
+                    <p className="text-sm leading-relaxed certifications-list">
+                        {certifications.map((cert, i) => (
+                            <span key={i} className="inline-block mr-1 cert-item">
+                                <span className="cert-name">{cert}</span>
+                                {i < certifications.length - 1 ? ' • ' : ''}
                             </span>
                         ))}
                     </p>

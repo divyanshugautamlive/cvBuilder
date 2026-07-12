@@ -3,26 +3,69 @@ import { Search, Plus } from 'lucide-react';
 import useResumeStore from '../../../store/useResumeStore';
 
 const JobMatcher = () => {
-    const { resumeData, updateSection } = useResumeStore();
+    const { resumeData, updateSection, updateJobMatchScore } = useResumeStore();
+    const { jobKeywords = { score: null, matched: [], missing: [] } } = resumeData;
+    
     const [jobDesc, setJobDesc] = useState('');
-    const [matches, setMatches] = useState(null);
+    const [matches, setMatches] = useState(() => {
+        return jobKeywords.score !== null ? jobKeywords : null;
+    });
 
     const analyzeJob = () => {
         if (!jobDesc) return;
 
-        // Simple mock keyword extraction (looks for capitalized words or common tech terms)
-        const commonTech = ['react', 'javascript', 'node', 'python', 'java', 'sql', 'aws', 'docker', 'agile', 'scrum', 'leadership', 'communication'];
-        const words = jobDesc.toLowerCase().match(/\b\w+\b/g) || [];
+        const stopWords = new Set([
+            'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd",
+            'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers',
+            'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which',
+            'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been',
+            'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if',
+            'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between',
+            'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out',
+            'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why',
+            'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not',
+            'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't",
+            'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn',
+            "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't",
+            'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't",
+            'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't",
+            'job', 'description', 'requirements', 'duties', 'responsibilities', 'work', 'position', 'role', 'team',
+            'experience', 'ability', 'qualification', 'qualifications', 'skills', 'candidate', 'candidates',
+            'client', 'clients', 'company', 'companies', 'business', 'success', 'successful', 'workplace', 'about',
+            'looking', 'join', 'help', 'design', 'develop', 'build', 'create', 'make', 'implement', 'manage', 'support'
+        ]);
 
-        const meaningfulWords = words.filter(w => commonTech.includes(w) || w.length > 5);
-        const uniqueJobKeywords = [...new Set(meaningfulWords)];
+        const words = jobDesc.toLowerCase().match(/\b[a-z]{3,}\b/g) || [];
+        const freq = {};
+        words.forEach(w => {
+            if (!stopWords.has(w)) {
+                freq[w] = (freq[w] || 0) + 1;
+            }
+        });
 
-        const resumeText = JSON.stringify(resumeData).toLowerCase();
+        // Sort keywords by frequency descending and take top 20
+        const topKeywords = Object.keys(freq)
+            .sort((a, b) => freq[b] - freq[a])
+            .slice(0, 20);
+
+        if (topKeywords.length === 0) return;
+
+        // Build unified resume text
+        const { personalInfo = {}, summary = "", experience = [], education = [], skills = [], certifications = [] } = resumeData;
+        const resumeText = [
+            personalInfo.fullName,
+            personalInfo.jobTitle,
+            summary,
+            experience.map(j => `${j.title} ${j.company} ${j.description}`).join(' '),
+            education.map(e => `${e.degree} ${e.school}`).join(' '),
+            skills.map(s => typeof s === 'string' ? s : s.name).join(' '),
+            certifications.join(' ')
+        ].join(' ').toLowerCase();
 
         const matched = [];
         const missing = [];
 
-        uniqueJobKeywords.forEach(word => {
+        topKeywords.forEach(word => {
             if (resumeText.includes(word)) {
                 matched.push(word);
             } else {
@@ -30,23 +73,27 @@ const JobMatcher = () => {
             }
         });
 
-        const score = Math.round((matched.length / uniqueJobKeywords.length) * 100) || 0;
+        const score = Math.round((matched.length / topKeywords.length) * 100) || 0;
 
-        setMatches({ matched, missing, score });
+        const newMatches = { matched, missing, score };
+        setMatches(newMatches);
+        updateJobMatchScore(score, matched, missing);
     };
 
     const addSkill = (skill) => {
         const currentSkills = resumeData.skills.map(s => typeof s === 'string' ? s : s.name);
         if (!currentSkills.includes(skill)) {
-            // Add as object to match store structure
             const newSkills = [...resumeData.skills, { name: skill, level: 'Intermediate' }];
             updateSection('skills', newSkills);
-            // Optimistically move from missing to matched
-            setMatches(prev => ({
-                ...prev,
-                matched: [...prev.matched, skill],
-                missing: prev.missing.filter(m => m !== skill)
-            }));
+            
+            // Recalculate matches
+            const newMatched = [...(matches?.matched || []), skill];
+            const newMissing = (matches?.missing || []).filter(m => m !== skill);
+            const newScore = Math.round((newMatched.length / (newMatched.length + newMissing.length)) * 100) || 0;
+
+            const newMatches = { matched: newMatched, missing: newMissing, score: newScore };
+            setMatches(newMatches);
+            updateJobMatchScore(newScore, newMatched, newMissing);
         }
     };
 

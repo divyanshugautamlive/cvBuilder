@@ -59,7 +59,7 @@ const ExecutiveTemplate = ({ data }) => {
                                             <div className="text-sm font-bold text-slate-600 uppercase tracking-wide flex gap-1">
                                                 <span className="start-date">{job.startDate}</span>
                                                 <span>-</span>
-                                                <span className="end-date">{job.endDate || 'Present'}</span>
+                                                <span className="end-date">{job.current ? 'Present' : job.endDate}</span>
                                             </div>
                                         </div>
                                         <div className="text-md font-semibold text-slate-700 italic mb-2 flex gap-1">

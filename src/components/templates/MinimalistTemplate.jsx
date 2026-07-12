@@ -1,16 +1,23 @@
 import React from 'react';
 
 const MinimalistTemplate = ({ data }) => {
-    const { personalInfo = {}, summary, experience = [], education = [], skills = [] } = data;
+    const { personalInfo = {}, summary, experience = [], education = [], skills = [], certifications = [] } = data;
 
     return (
         <div className="p-8 text-slate-800 font-sans" style={{ fontFamily: 'Georgia, serif', maxWidth: '100%', wordWrap: 'break-word' }}>
 
             {/* Header */}
             <header className="mb-8">
-                <h1 className="text-4xl text-slate-900 mb-2 font-normal name">
+                <h1 className="text-4xl text-slate-900 mb-1 font-normal name">
                     {personalInfo.fullName || 'Your Name'}
                 </h1>
+                
+                {personalInfo.jobTitle && (
+                    <p className="text-md italic text-slate-600 mb-3 job-title-header">
+                        {personalInfo.jobTitle}
+                    </p>
+                )}
+
                 <div className="text-sm text-slate-500 space-y-1">
                     {personalInfo.email && (
                         <div>Email: <span className="email">{personalInfo.email}</span></div>
@@ -18,16 +25,18 @@ const MinimalistTemplate = ({ data }) => {
                     {personalInfo.phone && (
                         <div>Phone: <span className="phone">{personalInfo.phone}</span></div>
                     )}
-
                     {personalInfo.location && (
                         <div>Location: <span className="location">{personalInfo.location}</span></div>
+                    )}
+                    {personalInfo.linkedin && (
+                        <div>LinkedIn: <span className="linkedin">{personalInfo.linkedin}</span></div>
                     )}
                 </div>
             </header>
 
             <div className="grid grid-cols-[1fr_3fr] gap-8">
 
-                {/* Sidebar: Education & Skills */}
+                {/* Sidebar: Education, Skills & Certifications */}
                 <aside>
                     {/* Education */}
                     {education.length > 0 && (
@@ -55,12 +64,26 @@ const MinimalistTemplate = ({ data }) => {
 
                     {/* Skills */}
                     {skills.length > 0 && (
-                        <section className="skills" data-section="skills">
+                        <section className="mb-8 skills" data-section="skills">
                             <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Skills</h2>
                             <ul className="text-sm text-slate-700 space-y-2 skills-list">
                                 {skills.map((skill, i) => (
                                     <li key={i} className="border-b border-gray-100 pb-1 last:border-0 break-inside-avoid skill-item">
                                         <span className="skill-name">{skill.name}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    )}
+
+                    {/* Certifications */}
+                    {certifications && certifications.length > 0 && (
+                        <section className="certifications" data-section="certifications">
+                            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Certifications</h2>
+                            <ul className="text-sm text-slate-700 space-y-2 certifications-list">
+                                {certifications.map((cert, i) => (
+                                    <li key={i} className="border-b border-gray-100 pb-1 last:border-0 break-inside-avoid cert-item">
+                                        <span className="cert-name">{cert}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -99,7 +122,7 @@ const MinimalistTemplate = ({ data }) => {
                                                 <div className="text-xs text-slate-400 font-mono flex gap-1">
                                                     <span className="start-date">{job.startDate}</span>
                                                     <span>—</span>
-                                                    <span className="end-date">{job.endDate || 'Present'}</span>
+                                                    <span className="end-date">{job.current ? 'Present' : job.endDate}</span>
                                                 </div>
                                             </div>
                                             <div className="text-sm font-semibold text-slate-600 mb-2 company">

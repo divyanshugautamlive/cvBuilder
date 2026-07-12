@@ -51,7 +51,7 @@ const MarsTemplate = ({ data, templateSettings = {}, sectionOrder }) => {
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                                     <h3 className="job-title" style={{ fontSize: '13.5px', fontWeight: '700', color: '#1a202c', margin: 0 }}>{job.title}</h3>
                                     <span style={{ fontSize: '11px', color: '#718096', whiteSpace: 'nowrap', display: 'flex', gap: '3px' }}>
-                                        <span className="start-date">{job.startDate}</span><span>-</span><span className="end-date">{job.endDate || 'Present'}</span>
+                                        <span className="start-date">{job.startDate}</span><span>-</span><span className="end-date">{job.current ? 'Present' : job.endDate}</span>
                                     </span>
                                 </div>
                                 <div style={{ fontSize: '12.5px', color: '#4a5568', marginBottom: '2px', display: 'flex', gap: '4px' }}>
@@ -125,10 +125,18 @@ const MarsTemplate = ({ data, templateSettings = {}, sectionOrder }) => {
             <header style={{ textAlign: 'center', marginBottom: ds.headerMb, paddingBottom: '14px', borderBottom: `2px solid ${accent}` }}>
                 <h1 className="name" style={{
                     fontSize: '24px', fontWeight: '700', color: '#1a202c',
-                    margin: '0 0 6px', letterSpacing: '0.01em', lineHeight: '1.2'
+                    margin: '0 0 4px', letterSpacing: '0.01em', lineHeight: '1.2'
                 }}>
                     {personalInfo.fullName || 'Your Name'}
                 </h1>
+                {personalInfo.jobTitle && (
+                    <div className="job-title-header" style={{
+                        fontSize: '13px', fontWeight: '600', color: accent,
+                        textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 8px'
+                    }}>
+                        {personalInfo.jobTitle}
+                    </div>
+                )}
                 <div style={{ fontSize: '12px', color: '#4a5568', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '4px' }}>
                     {personalInfo.email && <span className="email">{personalInfo.email}</span>}
                     {personalInfo.email && personalInfo.phone && <span style={{ color: '#a0aec0' }}>|</span>}

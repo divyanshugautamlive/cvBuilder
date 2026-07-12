@@ -5,7 +5,7 @@ import AIAssistButton from '../../ai/AIAssistButton';
 
 const SummaryStep = () => {
     const { resumeData, updateSection } = useResumeStore();
-    const { summary } = resumeData;
+    const { summary, parserConfidence = {} } = resumeData;
 
     return (
         <div className="animate-in fade-in slide-in-from-right duration-300">
@@ -21,6 +21,7 @@ const SummaryStep = () => {
                     placeholder="Experienced professional with a proven track record..."
                     rows={8}
                     maxLength={500}
+                    warning={parserConfidence.summary === false ? "Verify autodetected professional summary." : undefined}
                 />
 
                 {/* AI Assist Button */}
