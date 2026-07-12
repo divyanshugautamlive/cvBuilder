@@ -62,7 +62,7 @@ const App = () => {
 
       {/* Cover Letter View */}
       {activeView === 'cover-letter' && (
-        <div className="flex-1 overflow-y-auto pt-12 md:pt-12">
+        <div className="flex-1 overflow-y-auto pt-4 md:pt-12 pb-24 md:pb-8">
           <CoverLetterBuilder />
         </div>
       )}
@@ -75,7 +75,7 @@ const App = () => {
             flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#12121a] border-r border-gray-200 dark:border-[#6c63ff]/20 pt-0 md:pt-12 transition-colors
             ${mobileTab === 'preview' ? 'hidden md:flex' : 'flex'}
           `}>
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 pb-24 md:p-8 custom-scrollbar">
               <div className="max-w-3xl mx-auto space-y-8">
                 <FileUploader />
                 <FormWizard />
@@ -105,7 +105,7 @@ const App = () => {
             </div>
 
             {/* Preview Canvas */}
-            <div className="flex-1 overflow-y-auto p-8 custom-scrollbar relative">
+            <div className="flex-1 overflow-y-auto p-6 pb-24 md:p-8 custom-scrollbar relative">
               <div className="max-w-[210mm] mx-auto space-y-6">
                 <ATSScorer />
 
