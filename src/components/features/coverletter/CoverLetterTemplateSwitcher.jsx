@@ -11,37 +11,23 @@ const TEMPLATES = [
  */
 const CoverLetterTemplateSwitcher = ({ selected, onSelect }) => {
     return (
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+        <div className="flex gap-2 mb-4 flex-wrap">
             {TEMPLATES.map(t => (
                 <button
                     key={t.id}
                     onClick={() => onSelect(t.id)}
-                    className={`template-selector-card ${selected === t.id ? 'active' : ''}`}
-                    style={{
-                        flex: '1 1 0',
-                        minWidth: '100px',
-                        padding: '10px 14px',
-                        border: selected === t.id ? '2px solid transparent' : '2px solid #e5e7eb',
-                        borderRadius: '10px',
-                        background: selected === t.id ? 'transparent' : '#ffffff',
-                        cursor: 'pointer',
-                        textAlign: 'center',
-                        transition: 'all 0.2s',
-                    }}
+                    className={`template-selector-card flex-1 min-w-[100px] p-2.5 rounded-lg border text-center transition-all duration-200 cursor-pointer ${
+                        selected === t.id
+                            ? 'active border-transparent bg-transparent'
+                            : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-transparent'
+                    }`}
                 >
-                    <div style={{
-                        fontSize: '13px',
-                        fontWeight: '700',
-                        color: selected === t.id ? '#6c63ff' : '#374151',
-                        marginBottom: '2px',
-                    }}>
+                    <div className={`text-[13px] font-bold mb-0.5 ${
+                        selected === t.id ? 'text-[#6c63ff]' : 'text-gray-700 dark:text-gray-300'
+                    }`}>
                         {t.name}
                     </div>
-                    <div style={{
-                        fontSize: '11px',
-                        color: '#9ca3af',
-                        fontWeight: '500',
-                    }}>
+                    <div className="text-[11px] text-gray-400 dark:text-gray-500 font-medium">
                         {t.desc}
                     </div>
                 </button>

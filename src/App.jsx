@@ -37,13 +37,13 @@ const App = () => {
   return (
     <MainLayout>
       {/* Navigation Tabs */}
-      <div className="hidden md:flex fixed top-16 left-0 right-0 bg-gray-50 border-b border-gray-200 z-40">
+      <div className="hidden md:flex fixed top-16 left-0 right-0 bg-gray-50 dark:bg-[#12121a] border-b border-gray-200 dark:border-[#6c63ff]/20 z-40 transition-colors">
         <div className="max-w-[1920px] mx-auto px-6 flex gap-0">
           <button
             onClick={() => setActiveView('resume')}
             className={`px-6 py-3 font-medium text-sm flex items-center gap-2 border-b-2 transition-colors ${activeView === 'resume'
-              ? 'border-blue-600 text-blue-600 bg-white'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-blue-600 text-blue-600 bg-white dark:border-[#6c63ff] dark:text-[#6c63ff] dark:bg-[#12121a]'
+              : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-[#a0a0b8] dark:hover:text-white'
               }`}
           >
             <FileText size={18} /> Resume Builder
@@ -51,8 +51,8 @@ const App = () => {
           <button
             onClick={() => setActiveView('cover-letter')}
             className={`px-6 py-3 font-medium text-sm flex items-center gap-2 border-b-2 transition-colors ${activeView === 'cover-letter'
-              ? 'border-blue-600 text-blue-600 bg-white'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-blue-600 text-blue-600 bg-white dark:border-[#6c63ff] dark:text-[#6c63ff] dark:bg-[#12121a]'
+              : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-[#a0a0b8] dark:hover:text-white'
               }`}
           >
             <Mail size={18} /> Cover Letter
@@ -62,7 +62,7 @@ const App = () => {
 
       {/* Cover Letter View */}
       {activeView === 'cover-letter' && (
-        <div className="flex-1 overflow-y-auto pt-4 md:pt-12 pb-24 md:pb-8">
+        <div className="flex-1 overflow-y-auto pt-4 md:pt-12 pb-24 md:pb-8 bg-gray-50 dark:bg-[#0a0a0f] transition-colors">
           <CoverLetterBuilder />
         </div>
       )}

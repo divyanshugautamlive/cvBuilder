@@ -211,3 +211,71 @@
     color: white;
     border-color: #667eea;
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                 DARK MODE                                  */
+/* -------------------------------------------------------------------------- */
+
+.dark .ai-prompt-modal {
+    background: #12121a;
+    border: 1px solid rgba(108, 99, 255, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.dark .ai-modal-title {
+    color: #ffffff;
+}
+
+.dark .ai-modal-subtitle {
+    color: #a0a0b8;
+}
+
+.dark .ai-textarea {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: rgba(108, 99, 255, 0.3);
+    color: #ffffff;
+}
+
+.dark .ai-textarea:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+.dark .ai-quick-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(108, 99, 255, 0.15);
+    color: #c9c9d9;
+}
+
+.dark .ai-quick-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(108, 99, 255, 0.3);
+    color: #ffffff;
+}
+
+.dark .ai-cancel-btn {
+    color: #a0a0b8;
+    border-color: rgba(108, 99, 255, 0.3);
+}
+
+.dark .ai-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
+.dark .ai-presets {
+    background: rgba(108, 99, 255, 0.05);
+    border-color: rgba(108, 99, 255, 0.15);
+}
+
+.dark .ai-preset-button {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(108, 99, 255, 0.2);
+    color: #c9c9d9;
+}
+
+.dark .ai-preset-button:hover {
+    background: #6c63ff;
+    color: #ffffff;
+    border-color: #6c63ff;
+}

@@ -255,3 +255,56 @@
     margin-top: 24px !important;
     font-weight: 600;
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                 DARK MODE                                  */
+/* -------------------------------------------------------------------------- */
+
+.dark .cl-editor {
+    background: #12121a;
+    box-shadow: none;
+    border: 1px solid rgba(108, 99, 255, 0.15);
+}
+
+.dark .cl-title {
+    color: #ffffff;
+}
+
+.dark .cl-subtitle {
+    color: #a0a0b8;
+}
+
+.dark .cl-field label,
+.dark .cl-field-full label {
+    color: #c9c9d9;
+}
+
+.dark .cl-preview-pane {
+    background: #0a0a0f;
+    border-color: rgba(108, 99, 255, 0.15);
+}
+
+.dark .cl-preview-title {
+    color: #a0a0b8;
+}
+
+.dark .cl-field input,
+.dark .cl-field-full input,
+.dark .cl-field textarea,
+.dark .cl-field-full textarea {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: rgba(108, 99, 255, 0.3);
+    color: #ffffff;
+}
+
+.dark .cl-field input:focus,
+.dark .cl-field-full input:focus,
+.dark .cl-field textarea:focus,
+.dark .cl-field-full textarea:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+.dark .cl-actions {
+    border-top-color: rgba(108, 99, 255, 0.15);
+}
