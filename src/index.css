@@ -1,7 +1,6 @@
 /* Phase 2 CSS Imports */
 @import './styles/ai-components.css';
 @import './styles/cover-letter.css';
-@import './styles/version-manager.css';
 
 @tailwind base;
 @tailwind components;
