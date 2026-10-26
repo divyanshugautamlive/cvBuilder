@@ -33,14 +33,32 @@ const VALID_TEMPLATES = ['classic', 'minimalist', 'modern', 'executive', 'tech',
 const useResumeStore = create((set, get) => ({
     resumeData: (() => {
         const stored = storage.get('resume_data');
-        if (stored) {
-            // Migrate any deleted template selections to 'executive'
-            if (!VALID_TEMPLATES.includes(stored.selectedTemplate)) {
-                stored.selectedTemplate = 'executive';
-            }
-            // Remove deprecated theme color if present
-            delete stored.selectedThemeColor;
-            return stored;
+        if (stored && typeof stored === 'object') {
+            const merged = {
+                ...DEFAULT_RESUME_DATA,
+                ...stored,
+                personalInfo: {
+                    ...DEFAULT_RESUME_DATA.personalInfo,
+                    ...(stored.personalInfo && typeof stored.personalInfo === 'object' ? stored.personalInfo : {})
+                },
+                templateSettings: {
+                    ...DEFAULT_RESUME_DATA.templateSettings,
+                    ...(stored.templateSettings && typeof stored.templateSettings === 'object' ? stored.templateSettings : {})
+                },
+                sectionOrder: Array.isArray(stored.sectionOrder) && stored.sectionOrder.length > 0
+                    ? stored.sectionOrder
+                    : DEFAULT_RESUME_DATA.sectionOrder,
+                experience: Array.isArray(stored.experience) ? stored.experience : [],
+                education: Array.isArray(stored.education) ? stored.education : [],
+                skills: Array.isArray(stored.skills) ? stored.skills : [],
+                certifications: Array.isArray(stored.certifications) ? stored.certifications : [],
+                selectedTemplate: VALID_TEMPLATES.includes(stored.selectedTemplate)
+                    ? stored.selectedTemplate
+                    : 'executive',
+                theme: stored.theme || DEFAULT_RESUME_DATA.theme
+            };
+            delete merged.selectedThemeColor;
+            return merged;
         }
         return DEFAULT_RESUME_DATA;
     })(),

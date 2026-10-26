@@ -17,12 +17,16 @@ const CoverLetterPreview = ({ data, resumeData, template = 'classic' }) => {
             if (!parent) return;
             
             const parentWidth = parent.clientWidth;
+            // When hidden or not laid out yet, avoid computing a negative or zero scale
+            if (parentWidth <= 0) return;
+
             // 210mm in pixels at 96 DPI is approx 794px
             const targetWidth = 794;
             
             // Allow some padding on mobile
             if (parentWidth < targetWidth + 16) {
-                setScale((parentWidth - 16) / targetWidth);
+                const calculatedScale = Math.max(0.2, (parentWidth - 16) / targetWidth);
+                setScale(calculatedScale);
             } else {
                 setScale(1);
             }
@@ -30,7 +34,20 @@ const CoverLetterPreview = ({ data, resumeData, template = 'classic' }) => {
 
         updateScale();
         window.addEventListener('resize', updateScale);
-        return () => window.removeEventListener('resize', updateScale);
+
+        let resizeObserver;
+        if (typeof ResizeObserver !== 'undefined' && wrapperRef.current) {
+            resizeObserver = new ResizeObserver(updateScale);
+            if (wrapperRef.current.parentElement) {
+                resizeObserver.observe(wrapperRef.current.parentElement);
+            }
+            resizeObserver.observe(wrapperRef.current);
+        }
+
+        return () => {
+            window.removeEventListener('resize', updateScale);
+            if (resizeObserver) resizeObserver.disconnect();
+        };
     }, []);
 
     const formatDate = () =>
