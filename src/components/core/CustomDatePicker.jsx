@@ -74,7 +74,8 @@ const CustomDatePicker = ({
     isOpen,
     onOpen,
     onClose,
-    disabled = false
+    disabled = false,
+    headerRight
 }) => {
     const containerRef = useRef(null);
     const [view, setView] = useState('year'); // 'year', 'month', 'day'
@@ -196,24 +197,29 @@ const CustomDatePicker = ({
 
     return (
         <div className="flex flex-col relative w-full mb-4" ref={containerRef}>
-            {label && (
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    {label}
-                </label>
+            {(label || headerRight) && (
+                <div className="flex items-center justify-between mb-1 gap-2">
+                    {label ? (
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {label}
+                        </label>
+                    ) : <div />}
+                    {headerRight}
+                </div>
             )}
 
             {/* Input Trigger */}
             <div
                 onClick={() => !disabled && onOpen && (isOpen ? onClose() : onOpen())}
-                className={`w-full p-2 border rounded-md outline-none flex items-center justify-between transition-all select-none cursor-pointer ${
+                className={`w-full p-2 border rounded-md outline-none flex items-center justify-between transition-all select-none ${
                     disabled 
                         ? 'bg-gray-100 dark:bg-gray-800/50 border-gray-200 dark:border-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                         : isOpen 
-                        ? 'border-blue-500 dark:border-[#6c63ff] ring-2 ring-blue-100 dark:ring-[#6c63ff]/20 bg-white dark:bg-transparent'
-                        : 'border-gray-300 dark:border-[#6c63ff]/30 hover:border-gray-400 dark:hover:border-[#6c63ff]/60 bg-white dark:bg-transparent text-gray-900 dark:text-white'
+                        ? 'border-blue-500 dark:border-[#6c63ff] ring-2 ring-blue-100 dark:ring-[#6c63ff]/20 bg-white dark:bg-transparent cursor-pointer'
+                        : 'border-gray-300 dark:border-[#6c63ff]/30 hover:border-gray-400 dark:hover:border-[#6c63ff]/60 bg-white dark:bg-transparent text-gray-900 dark:text-white cursor-pointer'
                 }`}
             >
-                <span className={value ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-500"}>
+                <span className={disabled && placeholder === 'Present' ? "text-gray-500 dark:text-gray-400 font-medium italic" : value ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-500"}>
                     {value || placeholder}
                 </span>
                 <Calendar size={16} className="text-gray-400 dark:text-[#a0a0b8]" />

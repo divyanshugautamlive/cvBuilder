@@ -28,9 +28,11 @@ const ExperienceStep = () => {
         updateSection('experience', experience.filter(exp => exp.id !== id));
     };
 
-    const updateExperience = (id, field, value) => {
-        const updated = experience.map(exp =>
-            exp.id === id ? { ...exp, [field]: value } : exp
+    const updateExperience = (id, fieldOrUpdates, value) => {
+        const updates = typeof fieldOrUpdates === 'object' ? fieldOrUpdates : { [fieldOrUpdates]: value };
+        const currentExperience = useResumeStore.getState().resumeData.experience;
+        const updated = currentExperience.map(exp =>
+            exp.id === id ? { ...exp, ...updates } : exp
         );
         updateSection('experience', updated);
     };
@@ -75,39 +77,41 @@ const ExperienceStep = () => {
                     value={exp.startDate}
                     onChange={(val) => {
                         updateExperience(exp.id, 'startDate', val);
-                        if (!exp.current) {
-                            setActivePicker(`end-${exp.id}`);
-                        }
                     }}
                     isOpen={activePicker === `start-${exp.id}`}
                     onOpen={() => setActivePicker(`start-${exp.id}`)}
                     onClose={() => setActivePicker(null)}
                 />
-                <div className="flex flex-col">
-                    <CustomDatePicker
-                        label="End Date"
-                        value={exp.endDate}
-                        onChange={(val) => updateExperience(exp.id, 'endDate', val)}
-                        disabled={exp.current}
-                        isOpen={activePicker === `end-${exp.id}`}
-                        onOpen={() => setActivePicker(`end-${exp.id}`)}
-                        onClose={() => setActivePicker(null)}
-                    />
-                    <label className="flex items-center gap-2 text-sm text-gray-600 mt-1 cursor-pointer select-none">
-                        <input
-                            type="checkbox"
-                            checked={exp.current}
-                            onChange={(e) => {
-                                updateExperience(exp.id, 'current', e.target.checked);
-                                if (e.target.checked) {
-                                    updateExperience(exp.id, 'endDate', '');
-                                }
-                            }}
-                            className="rounded text-blue-600 focus:ring-blue-500"
-                        />
-                        I currently work here
-                    </label>
-                </div>
+                <CustomDatePicker
+                    label="End Date"
+                    value={exp.current ? '' : exp.endDate}
+                    placeholder={exp.current ? "Present" : "Select Date"}
+                    onChange={(val) => updateExperience(exp.id, 'endDate', val)}
+                    disabled={exp.current}
+                    isOpen={activePicker === `end-${exp.id}`}
+                    onOpen={() => setActivePicker(`end-${exp.id}`)}
+                    onClose={() => setActivePicker(null)}
+                    headerRight={
+                        <label htmlFor={`current-exp-${exp.id}`} className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400 cursor-pointer select-none">
+                            <input
+                                id={`current-exp-${exp.id}`}
+                                type="checkbox"
+                                checked={!!exp.current}
+                                onChange={(e) => {
+                                    const isChecked = e.target.checked;
+                                    setActivePicker(null);
+                                    updateExperience(exp.id, {
+                                        current: isChecked,
+                                        ...(isChecked ? { endDate: '' } : {})
+                                    });
+                                }}
+                                aria-label="I am currently working here"
+                                className="rounded text-blue-600 focus:ring-blue-500 cursor-pointer"
+                            />
+                            I currently work here
+                        </label>
+                    }
+                />
             </div>
             <div className="mt-4">
                 <FormTextArea

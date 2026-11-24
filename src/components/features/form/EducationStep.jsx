@@ -21,10 +21,13 @@ const EducationStep = () => {
         updateSection('education', education.filter(edu => edu.id !== id));
     };
 
-    const updateEducation = (id, field, value) => {
-        updateSection('education', education.map(edu =>
-            edu.id === id ? { ...edu, [field]: value } : edu
-        ));
+    const updateEducation = (id, fieldOrUpdates, value) => {
+        const updates = typeof fieldOrUpdates === 'object' ? fieldOrUpdates : { [fieldOrUpdates]: value };
+        const currentEducation = useResumeStore.getState().resumeData.education;
+        const updated = currentEducation.map(edu =>
+            edu.id === id ? { ...edu, ...updates } : edu
+        );
+        updateSection('education', updated);
     };
 
     const handleReorder = (newOrder) => {
@@ -60,39 +63,41 @@ const EducationStep = () => {
                     value={edu.startDate || ''}
                     onChange={(val) => {
                         updateEducation(edu.id, 'startDate', val);
-                        if (!edu.current) {
-                            setActivePicker(`end-${edu.id}`);
-                        }
                     }}
                     isOpen={activePicker === `start-${edu.id}`}
                     onOpen={() => setActivePicker(`start-${edu.id}`)}
                     onClose={() => setActivePicker(null)}
                 />
-                <div className="flex flex-col">
-                    <CustomDatePicker
-                        label="End Date (or Expected)"
-                        value={edu.endDate || ''}
-                        onChange={(val) => updateEducation(edu.id, 'endDate', val)}
-                        disabled={edu.current}
-                        isOpen={activePicker === `end-${edu.id}`}
-                        onOpen={() => setActivePicker(`end-${edu.id}`)}
-                        onClose={() => setActivePicker(null)}
-                    />
-                    <label className="flex items-center gap-2 text-sm text-gray-600 mt-1 cursor-pointer select-none">
-                        <input
-                            type="checkbox"
-                            checked={edu.current || false}
-                            onChange={(e) => {
-                                updateEducation(edu.id, 'current', e.target.checked);
-                                if (e.target.checked) {
-                                    updateEducation(edu.id, 'endDate', '');
-                                }
-                            }}
-                            className="rounded text-blue-600 focus:ring-blue-500"
-                        />
-                        I currently study here
-                    </label>
-                </div>
+                <CustomDatePicker
+                    label="End Date (or Expected)"
+                    value={edu.current ? '' : (edu.endDate || '')}
+                    placeholder={edu.current ? "Present" : "Select Date"}
+                    onChange={(val) => updateEducation(edu.id, 'endDate', val)}
+                    disabled={edu.current}
+                    isOpen={activePicker === `end-${edu.id}`}
+                    onOpen={() => setActivePicker(`end-${edu.id}`)}
+                    onClose={() => setActivePicker(null)}
+                    headerRight={
+                        <label htmlFor={`current-edu-${edu.id}`} className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400 cursor-pointer select-none">
+                            <input
+                                id={`current-edu-${edu.id}`}
+                                type="checkbox"
+                                checked={!!edu.current}
+                                onChange={(e) => {
+                                    const isChecked = e.target.checked;
+                                    setActivePicker(null);
+                                    updateEducation(edu.id, {
+                                        current: isChecked,
+                                        ...(isChecked ? { endDate: '' } : {})
+                                    });
+                                }}
+                                aria-label="I currently study here"
+                                className="rounded text-blue-600 focus:ring-blue-500 cursor-pointer"
+                            />
+                            I currently study here
+                        </label>
+                    }
+                />
                 <FormInput
                     label="GPA (Optional)"
                     value={edu.gpa}
