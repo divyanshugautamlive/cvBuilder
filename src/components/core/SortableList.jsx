@@ -13,7 +13,7 @@ export const SortableItem = ({ id, children }) => {
         transition,
         opacity: isDragging ? 0.5 : 1,
         position: 'relative',
-        zIndex: isDragging ? 20 : 1
+        zIndex: isDragging ? 20 : undefined
     };
 
     return (
